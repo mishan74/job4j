@@ -5,7 +5,7 @@ package ru.job4j.calculate;
 *@author Mikhail Rozdin
 *@since 04.12.2018
 */
-public class Calculate{
+public class Calculate {
 	/**
 	*Метод для вывода в консоль "Hello world"
 	*@param args - args
