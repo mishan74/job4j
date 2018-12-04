@@ -8,7 +8,7 @@ import static org.junit.Assert.assertThat;
 *Test
 
 @author Mikhail Rozdin (mrozdin@yandex.ru)
-@varsion $Id$
+@version $Id$
 @since 0.1
 */
 public class CalculateTest {
