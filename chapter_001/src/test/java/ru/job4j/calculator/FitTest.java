@@ -26,13 +26,13 @@ public class FitTest {
     public void manHeight100ThenZero() {
         Fit fit = new Fit();
         double weight = fit.manWeight(100);
-        assertThat(weight, is(0));
+        assertThat(weight, is(0.0));
     }
 
     @Test
     public void womanHeight110ThenZero() {
         Fit fit = new Fit();
         double weight = fit.womanWeight(110);
-        assertThat(weight, is(0));
+        assertThat(weight, is(0.0));
     }
 }
