@@ -22,4 +22,16 @@ public class Max {
         }
         return result;
     }
+
+    /**
+     * Метод возвращающий максимум из 3х чисел.
+     * @param first,second,third 3 сравниваемых числа.
+     * @return Наибольшее из 3х чисел.
+     */
+    public int max(int first, int second, int third) {
+        int temp;
+        temp = max(first, second);
+        temp = max(temp, third);
+        return temp;
+    }
 }
