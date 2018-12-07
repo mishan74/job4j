@@ -23,17 +23,18 @@ public class CounterTest {
     }
 
     @Test
-    public void whenStartIsFinishThenZero() {
+    public void whenStartIsFinishIsUnevenThenZero() {
         Counter counter = new Counter();
-        int result = counter.add(10, 10);
+        int result = counter.add(9, 9);
         int expect = 0;
         assertThat(result, is(expect));
     }
+
     @Test
-    public void whenStartIsFinishPlusOneThenZero() {
+    public void whenStartIsFinishIsEvenThenItNumber() {
         Counter counter = new Counter();
-        int result = counter.add(10, 11);
-        int expect = 0;
+        int result = counter.add(10, 10);
+        int expect = 10;
         assertThat(result, is(expect));
     }
 }
