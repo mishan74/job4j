@@ -19,11 +19,9 @@ public class Factorial {
         if (n < 0) {
             result = 0;
         }
-        if (n > 0) {
             for (int i = 1; i <= n; i++) {
                 result *= i;
             }
-        }
         return result;
     }
 }
