@@ -6,7 +6,7 @@ package ru.job4j.array;
  *@since 10.12.2018
  */
 public class ArrayChar {
-    private char[] data;
+    private final char[] data;
 
     public ArrayChar(String line) {
         this.data = line.toCharArray();
@@ -20,7 +20,7 @@ public class ArrayChar {
     public boolean startWith(String prefix) {
         boolean result = false;
         char[] value = prefix.toCharArray();
-        if(data.length >= value.length) {
+        if (data.length >= value.length) {
             for (int i = 0; i < value.length; i++) {
                 result = data[i] == value[i];
                 if (!result) {
