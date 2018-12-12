@@ -13,8 +13,11 @@ public class MatrixCheck {
      */
     public boolean mono(boolean[][] data) {
         boolean result = true;
-        for (int i = 0; i < data.length; i++) {
-           result = data[i][i] == data [i][data.length - 1 - i];
+        for (int i = 0; i < data.length - 1; i++) {
+            int j = i + 1;
+            boolean firstLine = data[i][i] == data [j][j];
+            boolean secondLine = data[data.length - 1 - i][i] == data[data.length - 1 - j][j];
+           result = firstLine == secondLine;
            if (!result) {
                break;
            }
