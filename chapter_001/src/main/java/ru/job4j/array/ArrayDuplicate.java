@@ -12,7 +12,6 @@ public class ArrayDuplicate {
             for (int out = 0; out < array.length - duplicate; out++) {
                 for (int in = out + 1; in < array.length - duplicate; in++) {
                     if (array[out].equals(array[in])) {
-
                         for (int i = in; i < array.length - 1 - duplicate; i++) {
                             String temp = array[i];
                             array[i] = array[i + 1];
