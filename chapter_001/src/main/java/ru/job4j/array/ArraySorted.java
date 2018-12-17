@@ -16,7 +16,6 @@ public class ArraySorted {
         int fl = first.length - 1;
         int sl = second.length - 1;
         int rl = result.length;
-
         while (rl > 0) {
             if (sl < 0 || fl > 0 && first[fl] >= second[sl]) {
                 result[--rl] = first[fl--];

@@ -18,7 +18,6 @@ public class Square {
             throw new NegativeArraySizeException("Введено отрицательное число");
         }
         int[] rst = new int[bound];
-        // заполнить массив через цикл элементами от 1 до bound возведенными в квадрат
         for (int i = 0, temp = 1; i < rst.length; i++, temp++) {
             rst[i] = (int) Math.pow(temp, 2);
         }

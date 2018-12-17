@@ -15,9 +15,9 @@ public class MatrixCheck {
         boolean result = true;
         for (int i = 0; i < data.length - 1; i++) {
             int j = i + 1;
-            boolean firstLine = data[i][i] == data [j][j];
-            boolean secondLine = data[data.length - 1 - i][i] == data[data.length - 1 - j][j];
-           result = firstLine == secondLine;
+            boolean fl = data[i][i] == data [j][j];
+            boolean sl = data[data.length - 1 - i][i] == data[data.length - 1 - j][j];
+           result = fl == sl;
            if (!result) {
                break;
            }

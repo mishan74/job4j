@@ -9,12 +9,12 @@ public class Converter {
     /**
      * Курс рубля к евро
      */
-    private final int eurRub = 70;
+    private final int eur = 70;
 
     /**
      * Курс рубля к доллару
      */
-    private final int usdRub = 60;
+    private final int usd = 60;
     
     /**
      * Конвертируем рубли в евро.
@@ -22,7 +22,7 @@ public class Converter {
      * @return Евро.
      */
     public int rubleToEuro(int value) {
-        return value / eurRub;
+        return value / eur;
     }
 
     /**
@@ -31,7 +31,7 @@ public class Converter {
      * @return Доллары.
      */
     public int rubleToDollar(int value) {
-        return value / usdRub;
+        return value / usd;
     }
 
     /**
@@ -40,7 +40,7 @@ public class Converter {
      * @return Рубли.
      */
     public int euroToRuble(int value) {
-        return value * eurRub;
+        return value * eur;
     }
 
     /**
@@ -49,6 +49,6 @@ public class Converter {
      * @return Рубли.
      */
     public int dollarToRuble(int value) {
-        return value * usdRub;
+        return value * usd;
     }
 }

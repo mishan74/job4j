@@ -18,14 +18,12 @@ public class Board {
         String ln = System.lineSeparator();
         for (int i = 0; i < height; i++) {
             for (int i1 = 0; i1 < width; i1++) {
-                // условие проверки, что писать пробел или X
                 if ((i1 + i) % 2 == 0) {
                     screen.append("X");
                 } else {
                     screen.append(" ");
                 }
             }
-            // добавляем перевод на новую строку.
             screen.append(ln);
         }
         return screen.toString();
