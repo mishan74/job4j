@@ -10,7 +10,11 @@ public class Doctor extends Profession {
         return "Doctor";
     }
 
-    public Diagnose getDiagnose(Patient patient) {}
+    public Diagnose getDiagnose(Patient patient) {
+        return new Diagnose("");
+    }
 
-    public boolean cure(Patient patient) {}
+    public boolean cure(Patient patient) {
+        return true;
+    }
 }

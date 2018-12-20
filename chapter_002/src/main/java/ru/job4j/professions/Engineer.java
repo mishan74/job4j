@@ -10,6 +10,6 @@ public class Engineer extends Profession {
         return "Engineer";
     }
     public boolean build(House house) {
-
+        return true;
     }
 }

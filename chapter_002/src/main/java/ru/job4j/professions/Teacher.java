@@ -10,5 +10,7 @@ public class Teacher extends Profession{
     public String toString() {
         return "Teacher";
     }
-    public boolean teach(Student student) {}
+    public boolean teach(Student student) {
+        return true;
+    }
 }

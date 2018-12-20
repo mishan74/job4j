@@ -72,10 +72,14 @@ public class Logic {
             for (int j = 0; j < table.length; j++) {
                     boolean hr = table[i][j] == 1;
                     boolean vr = table[j][i] == 1;
-                    result = (hr||vr);
-                    if(!result) break;
+                    result = (hr || vr);
+                    if (!result) {
+                        break;
+                    }
                 }
-                if (result) break;
+                if (result) {
+                    break;
+                }
             }
         return result;
     }
