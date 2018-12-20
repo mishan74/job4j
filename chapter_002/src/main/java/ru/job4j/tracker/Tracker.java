@@ -59,7 +59,7 @@ public class Tracker {
      */
     public void delete(String id) {
         for (int i = 0; i < position; i++) {
-            if (items[i].getId().equals(id)){
+            if (items[i].getId().equals(id)) {
                 System.arraycopy(items, i + 1, items, i, 100 - 1 - i);
                 position--;
                 break;
@@ -71,7 +71,7 @@ public class Tracker {
      * Метод генерирует массив всех заполненных элементов item.
      * @return Массив с элементами item, без null элементов.
      */
-    public Item[] findAll(){
+    public Item[] findAll() {
         return Arrays.copyOf(this.items, this.position);
     }
 
@@ -80,9 +80,9 @@ public class Tracker {
      * @param key имя заявки.
      * @return массив, с найденными именами заявок.
      */
-    public Item[] findByName(String key){
+    public Item[] findByName(String key) {
         int length = 0;
-        Item [] result = new Item[position];
+        Item[] result = new Item[position];
         for (Item item : this.findAll()) {
             if (item.getName().equals(key)) {
                Item[] temp = new Item[]{item};
