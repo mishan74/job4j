@@ -44,8 +44,9 @@ public class Tracker {
      * @param item новая заявка.
      */
     public void replace(String id, Item item) {
-        for (int i = 0; i < items.length; i++) {
+        for (int i = 0; i < position; i++) {
             if (items[i].getId().equals(id)) {
+                item.setId(id);
                 items[i] = item;
                 break;
             }
@@ -60,7 +61,7 @@ public class Tracker {
     public void delete(String id) {
         for (int i = 0; i < position; i++) {
             if (items[i].getId().equals(id)) {
-                System.arraycopy(items, i + 1, items, i, 100 - 1 - i);
+                System.arraycopy(items, i + 1, items, i, items.length - 1 - i);
                 position--;
                 break;
             }
@@ -85,13 +86,11 @@ public class Tracker {
         Item[] result = new Item[position];
         for (Item item : this.findAll()) {
             if (item.getName().equals(key)) {
-               Item[] temp = new Item[]{item};
-               System.arraycopy(temp, 0, result, length, 1);
+               result[length] = item;
                length++;
             }
         }
-        result = Arrays.copyOf(result, length);
-        return result;
+        return Arrays.copyOf(result, length);
     }
 
     /**
