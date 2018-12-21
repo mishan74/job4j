@@ -106,12 +106,12 @@ public class Tracker {
      */
     public Item findById(String id) {
        Item result = null;
-        for (Item item : items) {
-            if (item.getId().equals(id)) {
-                result = item;
-                break;
+            for (Item item : this.findAll()) {
+                if (item.getId().equals(id)) {
+                    result = item;
+                    break;
+                }
             }
-        }
        return result;
     }
 }

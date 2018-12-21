@@ -72,7 +72,7 @@ public class Item {
     @Override
     public String toString() {
         String ls = System.lineSeparator();
-        return String.format("The Item name: %s,%sdescription: %s,%sid: %s",
-                this.getName(), ls, this.getDesc(), ls, this.getId());
+        return String.format("The Item name: %s,%sdescription: %s,%sid: %s%s",
+                this.getName(), ls, this.getDesc(), ls, this.getId(), ls);
     }
 }
