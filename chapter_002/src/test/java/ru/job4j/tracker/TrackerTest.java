@@ -43,7 +43,7 @@ public class TrackerTest {
         assertThat(tracker.findByName("test"), is(expect));
     }
 
-    @Test (expected = NullPointerException.class)
+    @Test
     public void whenIncorrectIdThenNull() {
         Tracker tracker = new Tracker();
         assertNull(tracker.findById("first"));
