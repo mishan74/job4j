@@ -16,7 +16,6 @@ public class StartUIOutTest {
      * Строка меню.
      */
     private final String menu = new StringJoiner(System.lineSeparator())
-            .add("Меню")
             .add("0 - Добавить заявку")
             .add("1 - Показать все заявки")
             .add("2 - Изменить заявку")
