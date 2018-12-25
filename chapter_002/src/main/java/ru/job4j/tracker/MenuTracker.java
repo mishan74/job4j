@@ -38,13 +38,13 @@ public class MenuTracker {
      * Метод заполняет массив.
      */
     public void fillActions() {
-        actions[0] = new AddItem();
-        actions[1] = new ShowItems();
-        actions[2] = new EditItem();
-        actions[3] = new DeleteItem();
-        actions[4] = new FindItemById();
-        actions[5] = new FindItemsByName();
-        actions[6] = new ExitProgram();
+        actions[0] = new AddItem(UserAction.ADD, "Добавить заявку");
+        actions[1] = new ShowItems(UserAction.SHOW, "Показать все заявки");
+        actions[2] = new EditItem(UserAction.EDIT, "Изменить заявку");
+        actions[3] = new DeleteItem(UserAction.DELETE, "Удалить заявку");
+        actions[4] = new FindItemById(UserAction.FIND_ID, "Найти заявку по ID");
+        actions[5] = new FindItemsByName(UserAction.FIND_NAME, "Найти заявку по имени");
+        actions[6] = new ExitProgram(UserAction.EXIT, "ВЫХОД");
     }
     /**
      * Метод в зависимости от указанного ключа, выполняет соотвествующие действие.
@@ -65,10 +65,9 @@ public class MenuTracker {
             }
         }
     }
-    private class AddItem implements UserAction {
-        @Override
-        public String key() {
-            return ADD;
+    private class AddItem extends BaseAction {
+        protected AddItem(String key, String name) {
+            super(key, name);
         }
 
         @Override
@@ -80,16 +79,11 @@ public class MenuTracker {
             tracker.add(item);
             System.out.println("------------ Новая заявка с getId : " + item.getId() + "-----------");
         }
-
-        @Override
-        public String info() {
-            return "0 - Добавить заявку";
-        }
     }
-    private class DeleteItem implements UserAction {
-        @Override
-        public String key() {
-            return DELETE;
+    private class DeleteItem extends BaseAction {
+
+        protected DeleteItem(String key, String name) {
+            super(key, name);
         }
 
         @Override
@@ -102,16 +96,10 @@ public class MenuTracker {
                 System.out.println("------------ Не удалось удалить заявку --------------");
             }
         }
-
-        @Override
-        public String info() {
-            return "3 - Удалить заявку";
-        }
     }
-    private class EditItem implements UserAction {
-        @Override
-        public String key() {
-            return EDIT;
+    private class EditItem extends BaseAction {
+        protected EditItem(String key, String name) {
+            super(key, name);
         }
 
         @Override
@@ -127,16 +115,10 @@ public class MenuTracker {
                 System.out.println("------------ Не удалось изменить заявку --------------");
             }
         }
-
-        @Override
-        public String info() {
-            return "2 - Изменить заявку";
-        }
     }
-    private class FindItemById implements UserAction {
-        @Override
-        public String key() {
-            return FIND_ID;
+    private class FindItemById extends BaseAction {
+        protected FindItemById(String key, String name) {
+            super(key, name);
         }
 
         @Override
@@ -150,16 +132,10 @@ public class MenuTracker {
                 System.out.println(item);
             }
         }
-
-        @Override
-        public String info() {
-            return "4 - Найти заявку по ID";
-        }
     }
-    private class FindItemsByName implements UserAction {
-        @Override
-        public String key() {
-            return FIND_NAME;
+    private class FindItemsByName extends BaseAction {
+        protected FindItemsByName(String key, String name) {
+            super(key, name);
         }
 
         @Override
@@ -175,16 +151,10 @@ public class MenuTracker {
                 System.out.println("Не удалось найти заявки с указанными именами");
             }
         }
-
-        @Override
-        public String info() {
-            return "5 - Найти заявку по имени";
-        }
     }
-    private class ShowItems implements UserAction {
-        @Override
-        public String key() {
-            return SHOW;
+    private class ShowItems extends BaseAction {
+        protected ShowItems(String key, String name) {
+            super(key, name);
         }
 
         @Override
@@ -197,26 +167,14 @@ public class MenuTracker {
             }
             System.out.println("------------ Конец списка заявок --------------");
         }
-
-        @Override
-        public String info() {
-            return "1 - Показать все заявки";
-        }
     }
-    private class ExitProgram implements UserAction {
-        @Override
-        public String key() {
-            return EXIT;
+    private class ExitProgram extends BaseAction {
+        protected ExitProgram(String key, String name) {
+            super(key, name);
         }
-
         @Override
         public void execute(Input input, Tracker tracker) {
 
-        }
-
-        @Override
-        public String info() {
-            return "6 - ВЫХОД";
         }
     }
 }
