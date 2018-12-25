@@ -27,6 +27,14 @@ public class MenuTracker {
     }
 
     /**
+     * Метод для получения массива меню.
+     * @return длину массива
+     */
+    public int getActionsLength() {
+        return this.actions.length;
+    }
+
+    /**
      * Метод заполняет массив.
      */
     public void fillActions() {
