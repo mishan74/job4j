@@ -1,6 +1,6 @@
 package ru.job4j.tracker;
 
-public class StubInput extends ValidateInput {
+public class StubInput implements Input {
     /**
      * Это поле содержит последовательность ответов пользователя.
      * Например. Если пользователь
@@ -33,6 +33,23 @@ public class StubInput extends ValidateInput {
     @Override
     public String ask(String question) {
         return this.value[this.position++];
+    }
+
+    @Override
+    public int ask(String question, int[] range) {
+        int key = Integer.valueOf(this.ask(question));
+        boolean exist = false;
+        for (int value : range) {
+            if (value == key) {
+                exist = true;
+                break;
+            }
+        }
+        if (exist) {
+            return key;
+        } else {
+            throw new MenuOutException("Введено неверное число");
+        }
     }
 
 }
