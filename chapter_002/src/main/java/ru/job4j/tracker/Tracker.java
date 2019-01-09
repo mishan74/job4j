@@ -69,7 +69,7 @@ public class Tracker {
         int count = 0;
         for (Item item : items) {
             if (item.getId().equals(id)) {
-                items.remove(item);
+                items.remove(count);
                 result = true;
                 break;
             }
