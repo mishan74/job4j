@@ -2,6 +2,7 @@ package ru.job4j.tracker;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 /**
  * @version $Id$
@@ -64,15 +65,24 @@ public class Tracker {
      * @param id номер удаляемой заявки.
      */
     public boolean delete(String id) {
-                items.remove(this.findById(id));
-        return true;
+        boolean result = false;
+        int count = 0;
+        for (Item item : items) {
+            if (item.getId().equals(id)) {
+                items.remove(item);
+                result = true;
+                break;
+            }
+            count++;
+        }
+        return result;
     }
 
     /**
      * Метод генерирует массив всех заполненных элементов item.
      * @return Массив с элементами item, без null элементов.
      */
-    public ArrayList<Item> findAll() {
+    public List<Item> findAll() {
         return items;
     }
 

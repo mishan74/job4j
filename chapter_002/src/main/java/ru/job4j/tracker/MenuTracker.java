@@ -1,6 +1,7 @@
 package ru.job4j.tracker;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MenuTracker {
 
@@ -15,7 +16,7 @@ public class MenuTracker {
     /**
      * хранит ссылку на массив типа UserAction.
      */
-    private final ArrayList<UserAction> actions = new ArrayList<>();
+    private final List<UserAction> actions = new ArrayList<>();
 
     /**
      * Конструктор.
