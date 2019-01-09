@@ -22,7 +22,7 @@ public class PriorityQueueTest {
         queue.put(new Task("one", 1));
         queue.put(new Task("oneMore", 1));
         Task result = queue.take();
-        assertThat(result.getDesc(), is("oneMore"));
+        assertThat(result.getDesc(), is("one"));
     }
     @Test
     public void whenNoEqualsPriority() {
