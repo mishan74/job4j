@@ -1,5 +1,7 @@
 package ru.job4j.tracker;
 
+import java.util.ArrayList;
+
 public class MenuTracker {
 
     /**
@@ -13,7 +15,7 @@ public class MenuTracker {
     /**
      * хранит ссылку на массив типа UserAction.
      */
-    private final UserAction[] actions = new UserAction[7];
+    private final ArrayList<UserAction> actions = new ArrayList<>();
 
     /**
      * Конструктор.
@@ -31,20 +33,20 @@ public class MenuTracker {
      * @return длину массива
      */
     public int getActionsLength() {
-        return this.actions.length;
+        return this.actions.size();
     }
 
     /**
      * Метод заполняет массив.
      */
     public void fillActions() {
-        actions[0] = new AddItem(UserAction.ADD, "Добавить заявку");
-        actions[1] = new ShowItems(UserAction.SHOW, "Показать все заявки");
-        actions[2] = new EditItem(UserAction.EDIT, "Изменить заявку");
-        actions[3] = new DeleteItem(UserAction.DELETE, "Удалить заявку");
-        actions[4] = new FindItemById(UserAction.FIND_ID, "Найти заявку по ID");
-        actions[5] = new FindItemsByName(UserAction.FIND_NAME, "Найти заявку по имени");
-        actions[6] = new ExitProgram(UserAction.EXIT, "ВЫХОД");
+        actions.add(new AddItem(UserAction.ADD, "Добавить заявку"));
+        actions.add(new ShowItems(UserAction.SHOW, "Показать все заявки"));
+        actions.add(new EditItem(UserAction.EDIT, "Изменить заявку"));
+        actions.add(new DeleteItem(UserAction.DELETE, "Удалить заявку"));
+        actions.add(new FindItemById(UserAction.FIND_ID, "Найти заявку по ID"));
+        actions.add(new FindItemsByName(UserAction.FIND_NAME, "Найти заявку по имени"));
+        actions.add(new ExitProgram(UserAction.EXIT, "ВЫХОД"));
     }
     /**
      * Метод в зависимости от указанного ключа, выполняет соотвествующие действие.
@@ -52,7 +54,7 @@ public class MenuTracker {
      * @param key ключ операции
      */
     public void select(int key) {
-        this.actions[key].execute(this.input, this.tracker);
+        this.actions.get(key).execute(this.input, this.tracker);
     }
 
     /**
@@ -142,8 +144,8 @@ public class MenuTracker {
         public void execute(Input input, Tracker tracker) {
             System.out.println("------------ Поиск заявки: --------------");
             String name = input.ask("Введите имя заявки");
-            Item[] items = tracker.findByName(name);
-            if (items.length != 0) {
+            ArrayList<Item> items = tracker.findByName(name);
+            if (items.size() != 0) {
                 for (Item item : items) {
                     System.out.println(item);
                 }
