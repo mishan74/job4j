@@ -12,7 +12,7 @@ public class Tracker {
     /**
      * Массив для хранение заявок.
      */
-    private final ArrayList<Item> items = new ArrayList<>(100);
+    private final List<Item> items = new ArrayList<>(100);
 
     /**
      * Указатель ячейки для новой заявки.
@@ -91,7 +91,7 @@ public class Tracker {
      * @param key имя заявки.
      * @return массив, с найденными именами заявок.
      */
-    public ArrayList<Item> findByName(String key) {
+    public List<Item> findByName(String key) {
         ArrayList<Item> result = new ArrayList<>();
         for (Item item : this.findAll()) {
             if (item.getName().equals(key)) {
