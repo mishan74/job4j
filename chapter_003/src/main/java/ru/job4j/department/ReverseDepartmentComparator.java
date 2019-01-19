@@ -14,13 +14,10 @@ public class ReverseDepartmentComparator implements Comparator<Department> {
         String[] secondArr = second.getName().split(reg);
         int max = Math.max(firstArr.length, secondArr.length);
         for (int i = 0; i < max; i++) {
-            if (firstArr.length - 1 < i || secondArr.length - 1 < i) {
-                return result;
+            if (firstArr.length - 1 < i || secondArr.length - 1 < i || result != 0) {
+                break;
             }
             result = secondArr[i].compareTo(firstArr[i]);
-            if (result != 0) {
-                return result;
-            }
         }
         return result;
     }
