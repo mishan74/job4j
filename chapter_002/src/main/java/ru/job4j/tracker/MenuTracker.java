@@ -2,6 +2,7 @@ package ru.job4j.tracker;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 public class MenuTracker {
 
@@ -13,6 +14,8 @@ public class MenuTracker {
      * хранит ссылку на объект .
      */
     private final Tracker tracker;
+
+    private final Consumer<String> output;
     /**
      * хранит ссылку на массив типа UserAction.
      */
@@ -20,13 +23,14 @@ public class MenuTracker {
 
     /**
      * Конструктор.
-     *
-     * @param input   объект типа Input
+     *  @param input   объект типа Input
      * @param tracker объект типа Tracker
+     * @param output вывод.
      */
-    public MenuTracker(Input input, Tracker tracker) {
+    public MenuTracker(Input input, Tracker tracker, Consumer<String> output) {
         this.input = input;
         this.tracker = tracker;
+        this.output = output;
     }
 
     /**
@@ -64,7 +68,7 @@ public class MenuTracker {
     public void show() {
         for (UserAction action : this.actions) {
             if (action != null) {
-                System.out.println(action.info());
+                output.accept(action.info());
             }
         }
     }
@@ -75,12 +79,12 @@ public class MenuTracker {
 
         @Override
         public void execute(Input input, Tracker tracker) {
-            System.out.println("------------ Добавление новой заявки --------------");
+            output.accept("------------ Добавление новой заявки --------------");
             String name = input.ask("Введите имя заявки :");
             String desc = input.ask("Введите описание заявки :");
             Item item = new Item(name, desc);
             tracker.add(item);
-            System.out.println("------------ Новая заявка с getId : " + item.getId() + "-----------");
+            output.accept("------------ Новая заявка с getId : " + item.getId() + "-----------");
         }
     }
     private class DeleteItem extends BaseAction {
@@ -91,12 +95,12 @@ public class MenuTracker {
 
         @Override
         public void execute(Input input, Tracker tracker) {
-            System.out.println("------------ Изменение заявки: --------------");
+            output.accept("------------ Изменение заявки: --------------");
             String id = input.ask("Введите id заявки, которую хотите удалить");
             if (tracker.delete(id)) {
-                System.out.println("------------ Заявка успешно удалена --------------");
+                output.accept("------------ Заявка успешно удалена --------------");
             } else {
-                System.out.println("------------ Не удалось удалить заявку --------------");
+                output.accept("------------ Не удалось удалить заявку --------------");
             }
         }
     }
@@ -107,15 +111,15 @@ public class MenuTracker {
 
         @Override
         public void execute(Input input, Tracker tracker) {
-            System.out.println("------------ Изменение заявки: --------------");
+            output.accept("------------ Изменение заявки: --------------");
             String id = input.ask("Введите id заявки, которую хотите изменить");
             String name = input.ask("Введите новое имя заявки");
             String desc = input.ask("Введите новое описание заявки");
             Item item = new Item(name, desc);
             if (tracker.replace(id, item)) {
-                System.out.println("------------ Заявка успешно изменена --------------");
+                output.accept("------------ Заявка успешно изменена --------------");
             } else {
-                System.out.println("------------ Не удалось изменить заявку --------------");
+                output.accept("------------ Не удалось изменить заявку --------------");
             }
         }
     }
@@ -126,13 +130,13 @@ public class MenuTracker {
 
         @Override
         public void execute(Input input, Tracker tracker) {
-            System.out.println("------------ Поиск заявки: --------------");
+            output.accept("------------ Поиск заявки: --------------");
             String id = input.ask("Введите id заявки");
             Item item = tracker.findById(id);
             if (item == null) {
-                System.out.println("Не удалось найти заявку с указанным id");
+                output.accept("Не удалось найти заявку с указанным id");
             } else {
-                System.out.println(item);
+                output.accept(item.toString());
             }
         }
     }
@@ -143,15 +147,15 @@ public class MenuTracker {
 
         @Override
         public void execute(Input input, Tracker tracker) {
-            System.out.println("------------ Поиск заявки: --------------");
+            output.accept("------------ Поиск заявки: --------------");
             String name = input.ask("Введите имя заявки");
             List<Item> items = tracker.findByName(name);
             if (items.size() != 0) {
                 for (Item item : items) {
-                    System.out.println(item);
+                    output.accept(item.toString());
                 }
             } else {
-                System.out.println("Не удалось найти заявки с указанными именами");
+                output.accept("Не удалось найти заявки с указанными именами");
             }
         }
     }
@@ -162,13 +166,13 @@ public class MenuTracker {
 
         @Override
         public void execute(Input input, Tracker tracker) {
-            System.out.println("------------ Список заявок: --------------");
+            output.accept("------------ Список заявок: --------------");
             int counter = 0;
             for (Item item : tracker.findAll()) {
-                System.out.printf("------------ Заявка № %d: --------------%s", ++counter, System.lineSeparator());
-                System.out.println(item);
+                output.accept(String.format("------------ Заявка № %d: --------------%s", ++counter, System.lineSeparator()));
+                output.accept(item.toString());
             }
-            System.out.println("------------ Конец списка заявок --------------");
+            output.accept("------------ Конец списка заявок --------------");
         }
     }
     private class ExitProgram extends BaseAction {

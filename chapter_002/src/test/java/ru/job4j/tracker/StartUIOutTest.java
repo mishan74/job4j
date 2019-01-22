@@ -7,6 +7,7 @@ import org.junit.Test;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.StringJoiner;
+import java.util.function.Consumer;
 
 import static org.junit.Assert.assertThat;
 import static org.hamcrest.core.Is.is;
@@ -24,33 +25,41 @@ public class StartUIOutTest {
             .add("5 - Найти заявку по имени")
             .add("6 - ВЫХОД")
             .toString();
-    /**
-     * поле содержит дефолтный вывод в консоль.
-     */
-    private final PrintStream stdout = System.out;
 
-    /**
-     * буфер для результата.
-     */
     private final ByteArrayOutputStream out = new ByteArrayOutputStream();
+    private final String h = "Hello";
 
-    /**
-     * Замена дефолтного потока вывода.
-     */
-    @Before
-    public void loadOutput() {
-        System.out.println("execute before method");
-        System.setOut(new PrintStream(this.out));
-    }
 
-    /**
-     * Установка потоку вывода дефолтное значение.
-     */
-    @After
-    public void backOutput() {
-        System.setOut(this.stdout);
-        System.out.println("execute after method");
-    }
+    private final Consumer<String> output = new Consumer<String>() {
+        private final PrintStream stdout = new PrintStream(out);
+        @Override
+        public void accept(String s) {
+            stdout.println(s);
+        }
+
+        @Override
+        public String toString() {
+            return out.toString();
+        }
+    };
+
+   // /**
+   //  * Замена дефолтного потока вывода.
+   //  */
+   //@Before
+   //public void loadOutput() {
+   //    System.out.println("execute before method");
+   //    System.setOut(new PrintStream(this.out));
+   //}
+
+   ///**
+   // * Установка потоку вывода дефолтное значение.
+   // */
+   //@After
+   //public void backOutput() {
+   //    System.setOut(System.out);
+   //    System.out.println("execute after method");
+   // }
     @Test
     public void whenShowAllThenShow() {
         Tracker tracker = new Tracker();
@@ -59,19 +68,21 @@ public class StartUIOutTest {
         tracker.add(first);
         tracker.add(second);
         Input input = new StubInput(new String[]{"1", "6"});
-        new StartUI(input, tracker).init();
+        new StartUI(input, tracker, output).init();
         assertThat(
-                new java.lang.String(out.toByteArray()),
+                output.toString(),
                 is(
                         new StringJoiner(System.lineSeparator())
                                 .add(menu)
                                 .add("------------ Список заявок: --------------")
                                 .add("------------ Заявка № 1: --------------")
+                                .add("")
                                 .add("The Item name: first,")
                                 .add("description: desc first,")
                                 .add("id: " + first.getId())
                                 .add("")
                                 .add("------------ Заявка № 2: --------------")
+                                .add("")
                                 .add("The Item name: second,")
                                 .add("description: desc second,")
                                 .add("id: " + second.getId())
@@ -91,9 +102,9 @@ public class StartUIOutTest {
         tracker.add(first);
         tracker.add(second);
         Input input = new StubInput(new String[]{"4", second.getId(), "6"});
-        new StartUI(input, tracker).init();
+        new StartUI(input, tracker, output).init();
         assertThat(
-                new java.lang.String(out.toByteArray()),
+                output.toString(),
                 is(
                         new StringJoiner(System.lineSeparator())
                                 .add(menu)
@@ -116,9 +127,9 @@ public class StartUIOutTest {
         tracker.add(first);
         tracker.add(second);
         Input input = new StubInput(new String[]{"5", "first", "6"});
-        new StartUI(input, tracker).init();
+        new StartUI(input, tracker, output).init();
         assertThat(
-                new java.lang.String(out.toByteArray()),
+                output.toString(),
                 is(
                         new StringJoiner(System.lineSeparator())
                                 .add(menu)
@@ -141,9 +152,9 @@ public class StartUIOutTest {
         tracker.add(first);
         tracker.add(second);
         Input input = new StubInput(new String[]{"5", "third", "6"});
-        new StartUI(input, tracker).init();
+        new StartUI(input, tracker, output).init();
         assertThat(
-                new java.lang.String(out.toByteArray()),
+                output.toString(),
                 is(
                         new StringJoiner(System.lineSeparator())
                                 .add(menu)
