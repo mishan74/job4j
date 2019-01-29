@@ -3,6 +3,7 @@ package ru.job4j.tracker;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @version $Id$
@@ -92,13 +93,17 @@ public class Tracker {
      * @return массив, с найденными именами заявок.
      */
     public List<Item> findByName(String key) {
-        ArrayList<Item> result = new ArrayList<>();
-        for (Item item : this.findAll()) {
-            if (item.getName().equals(key)) {
-               result.add(item);
-            }
-        }
-        return result;
+        //ArrayList<Item> result = new ArrayList<>();
+        //for (Item item : this.findAll()) {
+        //    if (item.getName().equals(key)) {
+        //       result.add(item);
+        //    }
+        //}
+        //return result;
+        return this.findAll()
+                .stream()
+                .filter(k -> k.getName().equals(key))
+                .collect(Collectors.toList());
     }
 
     /**
@@ -107,13 +112,18 @@ public class Tracker {
      * @return найденная заявка, или null в случае ее отсутствия.
      */
     public Item findById(String id) {
-       Item result = null;
-            for (Item item : this.findAll()) {
-                if (item.getId().equals(id)) {
-                    result = item;
-                    break;
-                }
-            }
-       return result;
+       //Item result = null;
+       //     for (Item item : this.findAll()) {
+       //         if (item.getId().equals(id)) {
+       //             result = item;
+       //             break;
+       //         }
+       //     }
+       //return result;
+       return this.findAll()
+                    .stream()
+                    .filter(k -> k.getId().equals(id))
+                    .findAny()
+                    .orElse(null);
     }
 }
