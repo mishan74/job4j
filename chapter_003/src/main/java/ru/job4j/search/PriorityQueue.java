@@ -13,13 +13,14 @@ public class PriorityQueue {
      * @param task задача
      */
     public void put(Task task) {
-        int count = 0;
-        for (Task temp : tasks) {
-            if (task.getPriority() < temp.getPriority()) {
-                break;
-            }
-            count++;
-        }
+        int count = (int) tasks.stream().filter(n -> task.getPriority() >= n.getPriority()).count();
+     //  int count = 0;
+     //  for (Task temp : tasks) {
+     //      if (task.getPriority() < temp.getPriority()) {
+     //          break;
+     //      }
+     //      count++;
+     //  }
         tasks.add(count, task);
     }
 
