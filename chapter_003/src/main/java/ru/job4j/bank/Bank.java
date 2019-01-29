@@ -32,11 +32,15 @@ public class Bank {
      * @param account  добавляемый аккаунт.
      */
     public void addAccountToUser(String passport, Account account) {
-        for (Map.Entry<User, List<Account>> temp : clients.entrySet()) {
-            if (temp.getKey().getPassport().equals(passport)) {
-                temp.getValue().add(account);
-            }
-        }
+        //for (Map.Entry<User, List<Account>> temp : clients.entrySet()) {
+        //    if (temp.getKey().getPassport().equals(passport)) {
+        //        temp.getValue().add(account);
+        //    }
+        //}
+        clients.entrySet()
+                .stream()
+                .filter(k -> k.getKey().getPassport().equals(passport))
+                .forEach(k -> k.getValue().add(account));
     }
 
     /**
@@ -46,14 +50,23 @@ public class Bank {
      * @param account  удаляемый аккаунт.
      */
     public void deleteAccountFromUser(String passport, Account account) {
-        for (Map.Entry<User, List<Account>> temp : clients.entrySet()) {
-            if (temp.getKey().getPassport().equals(passport)) {
-                int delete = temp.getValue().indexOf(account);
-                if (delete != -1) {
-                    temp.getValue().remove(delete);
-                }
-            }
-        }
+        //for (Map.Entry<User, List<Account>> temp : clients.entrySet()) {
+        //    if (temp.getKey().getPassport().equals(passport)) {
+        //        int delete = temp.getValue().indexOf(account);
+        //        if (delete != -1) {
+        //            temp.getValue().remove(delete);
+        //        }
+        //    }
+        //}
+        clients.entrySet()
+                .stream()
+                .filter(k -> k.getKey().getPassport().equals(passport))
+                .forEach(k -> {
+                    int delete = k.getValue().indexOf(account);
+                            if (delete != -1) {
+                                k.getValue().remove(delete);
+                            }
+                });
     }
 
     /**
@@ -64,13 +77,19 @@ public class Bank {
      * @return Список аккаунтов.
      */
     public List<Account> getUserAccounts(String passport) {
-        List<Account> result = null;
-        for (Map.Entry<User, List<Account>> temp : clients.entrySet()) {
-            if (temp.getKey().getPassport().equals(passport)) {
-                result = temp.getValue();
-            }
-        }
-        return result;
+       // List<Account> result = null;
+       // for (Map.Entry<User, List<Account>> temp : clients.entrySet()) {
+       //     if (temp.getKey().getPassport().equals(passport)) {
+       //         result = temp.getValue();
+       //     }
+       // }
+       // return result;
+        return  clients.entrySet()
+                .stream()
+                .filter(k -> k.getKey().getPassport().equals(passport))
+                .map(Map.Entry::getValue)
+                .findAny()
+                .orElse(null);
     }
 
     /**
@@ -81,16 +100,21 @@ public class Bank {
      * @return Account в случае успеха, null если аккаунт не был найден.
      */
     public Account getAccountFromRequisite(String requisite, List<Account> accounts) {
-        Account result = null;
-        if (accounts != null) {
-            for (Account account : accounts) {
-                if (account.getRequisites().equals(requisite)) {
-                    result = account;
-                    break;
-                }
-            }
-        }
-        return result;
+       // Account result = null;
+       // if (accounts != null) {
+       //     for (Account account : accounts) {
+       //         if (account.getRequisites().equals(requisite)) {
+       //             result = account;
+       //             break;
+       //         }
+       //     }
+//
+       // return result;
+        return  accounts
+                .stream()
+                .filter(k -> k.getRequisites().equals(requisite))
+                .findAny()
+                .orElse(null);
     }
 
     /**
