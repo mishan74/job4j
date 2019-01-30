@@ -3,7 +3,9 @@ package ru.job4j.chess;
 import ru.job4j.chess.firuges.Cell;
 import ru.job4j.chess.firuges.Figure;
 
+import java.util.Arrays;
 import java.util.Optional;
+import java.util.stream.IntStream;
 
 /**
  * //TODO add comments.
@@ -31,7 +33,7 @@ public class Logic {
                 this.figures[index] = figure.copy(dest);
             }
         } catch (Exception ex) {
-            System.out.println(ex);
+            System.out.println(ex.getMessage());
         }
         return rst;
     }
@@ -44,27 +46,38 @@ public class Logic {
     }
 
     private int findBy(Cell cell) throws FigureNotFoundException {
-        int rst = -1;
-        for (int index = 0; index != this.figures.length; index++) {
-            if (this.figures[index] != null && this.figures[index].position().equals(cell)) {
-                rst = index;
-                break;
-            }
-        }
-        if (rst == -1) {
-            throw new FigureNotFoundException("Фигура не найдена");
-        }
-        return rst;
+        // int rst = -1;
+        // for (int index = 0; index != this.figures.length; index++) {
+        //     if (this.figures[index] != null && this.figures[index].position().equals(cell)) {
+        //         rst = index;
+        //         break;
+        //     }
+        // }
+        // if (rst == -1) {
+        //     throw new FigureNotFoundException("Фигура не найдена");
+        // }
+        // return rst;
+        return IntStream
+                .range(0, figures.length)
+                .filter(k -> this.figures[k] != null && this.figures[k].position().equals(cell))
+                .findAny()
+                .orElseThrow(() -> new FigureNotFoundException("Фигура не найдена"));
     }
 
     private boolean isFreeWay(Cell[] way) throws OccupiedWayException {
-        for (int i = 0; i < way.length; i++) {
-            for (Figure figure : figures) {
-                if (figure != null && figure.position().equals(way[i])) {
-                    throw new OccupiedWayException("The way is occupied");
-                }
-            }
-        }
-        return true;
+        // for (int i = 0; i < way.length; i++) {
+        //     for (Figure figure : figures) {
+        //         if (figure != null && figure.position().equals(way[i])) {
+        //             throw new OccupiedWayException("The way is occupied");
+        //         }
+        //     }
+        // }
+        // return true;
+        return Arrays
+                .stream(way)
+                .map(k -> Arrays.stream(figures)
+                        .noneMatch(z -> z != null && z.position().equals(k)))
+                .findAny()
+                .orElseThrow(() -> new OccupiedWayException("The way is occupied"));
     }
 }
