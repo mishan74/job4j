@@ -9,10 +9,6 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>puzzle</artifactId>
-    <packaging>pom</packaging>
-    <modules>
-        <module>../chapter_003</module>
-    </modules>
 
 
 </project>

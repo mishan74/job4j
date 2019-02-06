@@ -2,7 +2,6 @@ package ru.job4j.calculator;
 
 import org.junit.Test;
 
-import static jdk.nashorn.internal.objects.Global.Infinity;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
@@ -48,6 +47,6 @@ public class CalculatorTest {
         Calculator calc = new Calculator();
         calc.div(2D, 0D);
         double result = calc.getResult();
-        assertThat(result, is(Infinity));
+        assertThat(result, is(Double.POSITIVE_INFINITY));
     }
 }
