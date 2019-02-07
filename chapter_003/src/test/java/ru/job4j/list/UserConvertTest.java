@@ -10,9 +10,8 @@ import static org.junit.Assert.assertThat;
 public class UserConvertTest {
     @Test
     public void whenAddListThenMap() {
-        List<User> users = new ArrayList<>();
+        List<User> users = List.of(new User("Victor", "Volgograg"));
         UserConvert userConvert = new UserConvert();
-        users.add(new User("Victor", "Volgograg"));
         Map<Integer, User> map = userConvert.process(users);
 
         int expect = users.iterator().next().getId();
@@ -23,11 +22,12 @@ public class UserConvertTest {
 
     @Test
     public void whenAddListFewElementsThenMap() {
-        List<User> users = new ArrayList<>();
+        List<User> users = List.of(
+                new User("Victor", "Volgograg"),
+                new User("Vasilisa", "Oz"),
+                new User("Mikhail", "Sochi")
+        );
         UserConvert userConvert = new UserConvert();
-        users.add(new User("Victor", "Volgograg"));
-        users.add(new User("Vasilisa", "Oz"));
-        users.add(new User("Mikhail", "Sochi"));
         Map<Integer, User> map = userConvert.process(users);
 
         User expect = users.iterator().next();

@@ -60,9 +60,10 @@ public class ConvertList2ArrayTest {
     @Test
     public void when2ArraysThenConvert() {
         ConvertList2Array convertList2Array = new ConvertList2Array();
-        List<int[]> list = new ArrayList<>();
-        list.add(new int[]{1, 2});
-        list.add(new int[]{3, 4, 5, 6});
+        List<int[]> list = List.of(
+        new int[]{1, 2},
+        new int[]{3, 4, 5, 6}
+        );
         List<Integer> result = convertList2Array.convert(list);
         List<Integer> expect = Arrays.asList(1, 2, 3, 4, 5, 6);
         assertThat(result, is(expect));
@@ -71,11 +72,12 @@ public class ConvertList2ArrayTest {
     @Test
     public void when4ArraysThenConvert() {
         ConvertList2Array convertList2Array = new ConvertList2Array();
-        List<int[]> list = new ArrayList<>();
-        list.add(new int[]{1, 2});
-        list.add(new int[]{3, 4, 5, 6});
-        list.add(new int[]{5, 4, 3, 2});
-        list.add(new int[]{1});
+        List<int[]> list = List.of(
+        new int[]{1, 2},
+        new int[]{3, 4, 5, 6},
+        new int[]{5, 4, 3, 2},
+        new int[]{1}
+        );
         List<Integer> result = convertList2Array.convert(list);
         List<Integer> expect = Arrays.asList(1, 2, 3, 4, 5, 6, 5, 4, 3, 2, 1);
         assertThat(result, is(expect));

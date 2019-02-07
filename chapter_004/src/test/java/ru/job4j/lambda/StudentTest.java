@@ -16,7 +16,9 @@ public class StudentTest {
         Student student3 = new Student("Barinov Victor Sergeevich", 4);
         Student student4 = new Student("Nagiev Dmitry Arkadievich", 5);
 
-        List<Student> students = Arrays.asList(student4, student2, student3, student1);
+        List<Student> students = List.of(
+                student4, student2, student3, student1
+        );
         List<Student> expected = Student.levelOf(students, 4);
 
         List<Student> result = Arrays.asList(student1, student2);
