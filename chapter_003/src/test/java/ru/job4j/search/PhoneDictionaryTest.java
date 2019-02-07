@@ -8,47 +8,47 @@ import static org.junit.Assert.assertThat;
 public class PhoneDictionaryTest {
     @Test
     public void whenFindByName() {
-        PhoneDictionary phones = new PhoneDictionary();
+        var phones = new PhoneDictionary();
         phones.add(
                 new Person("Petr", "Arsentev", "534872", "Bryansk")
         );
-        List<Person> persons = phones.find("Petr");
+        var persons = phones.find("Petr");
         assertThat(persons.iterator().next().getSurname(), is("Arsentev"));
     }
     @Test
     public void whenFindBySurnameAndAddress() {
-        PhoneDictionary phones = new PhoneDictionary();
+        var phones = new PhoneDictionary();
         phones.add(
                 new Person("Petr", "Arsentev", "534872", "Bryansk")
         );
         phones.add(
         new Person("Viltor", "Plyshev", "534872", "Moscow")
         );
-        List<Person> persons = phones.find("n");
+        var persons = phones.find("n");
         assertThat(persons.iterator().next().getSurname(), is("Arsentev"));
     }
     @Test
     public void whenFindByPhone() {
-        PhoneDictionary phones = new PhoneDictionary();
+        var phones = new PhoneDictionary();
         phones.add(
                 new Person("Petr", "Arsentev", "534872", "Bryansk")
         );
         phones.add(
                 new Person("Viltor", "Plyshev", "534872", "Moscow")
         );
-        List<Person> persons = phones.find("53");
+        var persons = phones.find("53");
         assertThat(persons.size(), is(2));
     }
     @Test
     public void whenNotFind() {
-        PhoneDictionary phones = new PhoneDictionary();
+        var phones = new PhoneDictionary();
         phones.add(
                 new Person("Petr", "Arsentev", "534872", "Bryansk")
         );
         phones.add(
                 new Person("Viltor", "Plyshev", "534872", "Moscow")
         );
-        List<Person> persons = phones.find("Z");
+        var persons = phones.find("Z");
         assertThat(persons.isEmpty(), is(true));
     }
 }
