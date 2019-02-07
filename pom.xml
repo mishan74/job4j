@@ -20,7 +20,8 @@
 		<module>puzzle</module>
 		<module>chess</module>
         <module>chapter_004</module>
-    </modules>
+		<module>tictactoe</module>
+	</modules>
 	 
 	 <dependencies>
 		 <dependency>
@@ -35,33 +36,34 @@
 			 <version>4.12</version>
 			 <scope>test</scope>
 		 </dependency>
-		 <!-- https://mvnrepository.com/artifact/org.openjfx/javafx-fxml -->
-		 <dependency>
-			 <groupId>org.openjfx</groupId>
-			 <artifactId>javafx-fxml</artifactId>
-			 <version>12-ea+11</version>
-		 </dependency>
-		 <!-- https://mvnrepository.com/artifact/org.openjfx/javafx-graphics -->
-		 <dependency>
-			 <groupId>org.openjfx</groupId>
-			 <artifactId>javafx-graphics</artifactId>
-			 <version>12-ea+11</version>
-		 </dependency>
+		 
+		  <!-- https://mvnrepository.com/artifact/org.openjfx/javafx-fxml -->
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-fxml</artifactId>
+            <version>11</version>
+        </dependency>
 
+        <!-- https://mvnrepository.com/artifact/org.openjfx/javafx-graphics -->
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-graphics</artifactId>
+            <version>11</version>
+        </dependency>
 
-		 <!-- https://mvnrepository.com/artifact/org.openjfx/javafx-base -->
-		 <dependency>
-			 <groupId>org.openjfx</groupId>
-			 <artifactId>javafx-base</artifactId>
-			 <version>12-ea+11</version>
-		 </dependency>
+        <!-- https://mvnrepository.com/artifact/org.openjfx/javafx-base -->
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-base</artifactId>
+            <version>11</version>
+        </dependency>
 
-		 <!-- https://mvnrepository.com/artifact/org.openjfx/javafx-controls -->
-		 <dependency>
-			 <groupId>org.openjfx</groupId>
-			 <artifactId>javafx-controls</artifactId>
-			 <version>12-ea+11</version>
-		 </dependency>
+        <!-- https://mvnrepository.com/artifact/org.openjfx/javafx-controls -->
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
+            <version>11</version>
+        </dependency>
 
 	 </dependencies>
 	 
