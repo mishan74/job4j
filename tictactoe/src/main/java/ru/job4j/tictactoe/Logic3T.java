@@ -1,6 +1,7 @@
 package ru.job4j.tictactoe;
 
 
+import java.util.Arrays;
 import java.util.function.Predicate;
 
 public class Logic3T {
@@ -42,6 +43,9 @@ public class Logic3T {
     }
 
     public boolean hasGap() {
-        return true;
+        return Arrays
+                .stream(table)
+                .flatMap(Arrays::stream)
+                .anyMatch(x -> !x.hasMarkO() && !x.hasMarkX());
     }
 }
