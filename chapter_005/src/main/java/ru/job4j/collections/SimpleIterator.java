@@ -1,6 +1,7 @@
 package ru.job4j.collections;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
  * @author Mikhail Rozdin.
@@ -24,7 +25,10 @@ public class SimpleIterator implements Iterator<Integer> {
     }
 
     @Override
-    public Integer next() {
+    public Integer next() throws NoSuchElementException {
+        if (!hasNext()) {
+            throw new NoSuchElementException();
+        }
         int result;
          if (indexIn == values[indexOut].length) {
                 result = values[++indexOut][0];

@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -63,5 +64,23 @@ public class SimpleIteratorTest {
         assertThat(iterator.hasNext(), is(true));
         assertThat(iterator.next(), is(4));
         assertThat(iterator.hasNext(), is(false));
+    }
+    @Test (expected = NoSuchElementException.class)
+    public void whenOverArrayThenException() {
+        Iterator<Integer> iterator = new SimpleIterator(
+                new int[][]{
+                        {1, 2},
+                        {3, 4}
+                });
+        assertThat(iterator.hasNext(), is(true));
+        assertThat(iterator.next(), is(1));
+        assertThat(iterator.hasNext(), is(true));
+        assertThat(iterator.next(), is(2));
+        assertThat(iterator.hasNext(), is(true));
+        assertThat(iterator.next(), is(3));
+        assertThat(iterator.hasNext(), is(true));
+        assertThat(iterator.next(), is(4));
+        assertThat(iterator.hasNext(), is(false));
+        iterator.next();
     }
 }
