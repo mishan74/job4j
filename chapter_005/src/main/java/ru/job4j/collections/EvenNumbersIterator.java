@@ -27,11 +27,10 @@ public class EvenNumbersIterator implements Iterator<Integer> {
 
     @Override
     public Integer next() throws NoSuchElementException {
-        int result = stream()
-                .filter(x -> x % 2 == 0)
-                .findFirst()
-                .orElseThrow(() -> new NoSuchElementException("Has no element more"));
-        index +=  stream().takeWhile(x -> x % 2 == 1).count() + 1;
-        return result;
+        if (!hasNext()) {
+            throw new NoSuchElementException("Has no element more");
+        }
+        index +=  stream().takeWhile(x -> x % 2 == 1).count();
+        return array[index++];
     }
 }
