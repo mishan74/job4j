@@ -1,4 +1,4 @@
-package ru.job4j.collections;
+package ru.job4j.iterator;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -22,18 +22,11 @@ public class Converter {
             }
 
             @Override
-            public Integer next() {
+            public Integer next() throws NoSuchElementException {
                 if (!hasNext()) {
                     throw new NoSuchElementException();
                 }
-                int result;
-                if (integerIterator.hasNext()) {
-                    result = integerIterator.next();
-                } else {
-                    integerIterator = it.next();
-                    result = next();
-                }
-                return result;
+                return integerIterator.next();
             }
         };
     }
