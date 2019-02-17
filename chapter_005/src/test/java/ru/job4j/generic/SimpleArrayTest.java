@@ -44,6 +44,9 @@ public class SimpleArrayTest {
         String sets =  sa.set(0, "New value");
         assertThat(sets, is("New value"));
         assertThat(sa.get(0), is("New value"));
+        String nothing = sa.set(1, "One More Value");
+        assertNull(sa.get(1));
+        assertNull(nothing);
     }
 
     @Test (expected = ArrayIndexOutOfBoundsException.class)
@@ -63,6 +66,16 @@ public class SimpleArrayTest {
         assertThat(sa.get(1), is("My"));
         assertThat(sa.get(2), is("World"));
         assertNull(sa.get(3));
+    }
+
+    @Test
+    public void whenEmptyArrayThenIteratorFalse() {
+        Iterator iter = sa.iterator();
+        assertThat(iter.hasNext(), is(false));
+        sa.add("Hello");
+        assertThat(iter.hasNext(), is(true));
+        assertThat(iter.next(), is("Hello"));
+        assertThat(iter.hasNext(), is(false));
     }
 
     @Test (expected = ArrayIndexOutOfBoundsException.class)

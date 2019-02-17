@@ -16,11 +16,14 @@ public class SimpleArray<T> implements Iterable<T> {
         objects[position++] = model;
     }
 
-    @SuppressWarnings("unchecked")
     public T set(int index, T model) throws ArrayIndexOutOfBoundsException {
         checkException(index);
-        objects[index] = model;
-        return (T) objects[index];
+        T result = null;
+        if (objects[index] != null) {
+            objects[index] = model;
+            result = model;
+        }
+        return result;
 
     }
 
@@ -53,7 +56,7 @@ public class SimpleArray<T> implements Iterable<T> {
 
             @Override
             public boolean hasNext() {
-                return objects.length != index;
+                return objects.length > index && objects[index] != null;
             }
 
             @Override
