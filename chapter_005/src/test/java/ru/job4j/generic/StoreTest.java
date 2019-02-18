@@ -43,6 +43,7 @@ public class StoreTest {
     @Test
     public void whenReplaceThenTrue() {
         us.add(u1);
+        us.add(u2);
         assertThat(us.replace(u1.getId(), u2), is(true));
         assertThat(us.get(0), is(u2));
         assertThat(us.findById(u2.getId()), is(u2));

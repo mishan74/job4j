@@ -29,7 +29,12 @@ public abstract class AbstractStore<T extends Base>
 
     @Override
     public boolean replace(String id, T model) throws ArrayIndexOutOfBoundsException {
-        return set(findPositionById(id), model) != null;
+        int position = findPositionById(model.getId());
+        boolean result = set(findPositionById(id), model) != null;
+        if (result && position != -1) {
+            remove(position);
+        }
+        return result;
     }
 
     @Override
