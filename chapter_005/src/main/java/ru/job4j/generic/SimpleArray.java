@@ -1,7 +1,9 @@
 package ru.job4j.generic;
 
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.util.stream.Stream;
 
 public class SimpleArray<T> implements Iterable<T> {
     final Object[] objects;
@@ -19,8 +21,10 @@ public class SimpleArray<T> implements Iterable<T> {
     public T set(int index, T model) throws ArrayIndexOutOfBoundsException {
         checkException(index);
         T result = null;
-        if (objects[index] != null) {
+        int position = Arrays.asList(objects).indexOf(model);
+        if (position != -1) {
             objects[index] = model;
+            remove(position);
             result = model;
         }
         return result;
@@ -56,7 +60,7 @@ public class SimpleArray<T> implements Iterable<T> {
 
             @Override
             public boolean hasNext() {
-                return objects.length > index && objects[index] != null;
+                return position > index;
             }
 
             @Override
