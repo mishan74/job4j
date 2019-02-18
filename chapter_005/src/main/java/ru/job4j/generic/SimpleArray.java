@@ -3,7 +3,6 @@ package ru.job4j.generic;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-import java.util.stream.Stream;
 
 public class SimpleArray<T> implements Iterable<T> {
     final Object[] objects;
