@@ -19,7 +19,7 @@ public abstract class AbstractStore<T extends Base>
         int cursor = -1;
         for (T t : this) {
             cursor++;
-            if (t.getId().equals(id)) {
+            if (t != null && t.getId().equals(id)) {
                 result = cursor;
                 break;
             }
@@ -28,23 +28,18 @@ public abstract class AbstractStore<T extends Base>
     }
 
     @Override
-    public boolean replace(String id, T model) throws ArrayIndexOutOfBoundsException {
-        int position = findPositionById(model.getId());
-        boolean result = set(findPositionById(id), model) != null;
-        if (result && position != -1) {
-            remove(position);
-        }
-        return result;
+    public boolean replace(String id, T model) {
+        return set(findPositionById(id), model) != null;
     }
 
     @Override
-    public boolean delete(String id) throws ArrayIndexOutOfBoundsException {
+    public boolean delete(String id) {
         return remove(findPositionById(id)) != null;
     }
 
     @Override
    // @SuppressWarnings("unchecked")
-    public T findById(String id) throws ArrayIndexOutOfBoundsException {
+    public T findById(String id) {
         int temp = findPositionById(id);
         return temp != -1 ? this.get(temp) : null;
     }

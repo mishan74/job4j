@@ -22,7 +22,7 @@ public class SimpleArray<T> implements Iterable<T> {
         checkException(index);
         T result = null;
         int position = Arrays.asList(objects).indexOf(model);
-        if (position != -1) {
+        if (position != -1 && this.position > index) {
             objects[index] = model;
             remove(position);
             result = model;
