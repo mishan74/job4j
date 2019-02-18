@@ -38,18 +38,17 @@ public class SimpleArrayTest {
         sa.add("Hello");
     }
 
-    @Test
+    @Test (expected = IndexOutOfBoundsException.class)
     public void whenSetElementThenSet() {
         sa.add("First value");
         String sets =  sa.set(0, "New value");
-        assertNull(sets);
+        assertThat(sets, is("New value"));
         sa.add("New value");
         sets =  sa.set(0, "New value");
         assertThat(sets, is("New value"));
         assertThat(sa.get(0), is("New value"));
-        String nothing = sa.set(1, "One More Value");
-        assertNull(sa.get(1));
-        assertNull(nothing);
+        assertThat(sa.get(1), is("New value"));
+        sa.set(2, "One More Value");
     }
 
     @Test (expected = ArrayIndexOutOfBoundsException.class)

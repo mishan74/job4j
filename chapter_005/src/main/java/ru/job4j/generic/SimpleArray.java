@@ -1,6 +1,5 @@
 package ru.job4j.generic;
 
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -17,15 +16,14 @@ public class SimpleArray<T> implements Iterable<T> {
         objects[position++] = model;
     }
 
-    public T set(int index, T model) throws ArrayIndexOutOfBoundsException {
+    public T set(int index, T model) throws IndexOutOfBoundsException {
         checkException(index);
-        T result = null;
-        int position = Arrays.asList(objects).indexOf(model);
-        if (position != -1 && this.position > index) {
-            objects[index] = model;
-            remove(position);
-            result = model;
+        T result;
+        if (index < 0 || index >= position) {
+            throw new IndexOutOfBoundsException();
         }
+        objects[index] = model;
+        result = model;
         return result;
 
     }
