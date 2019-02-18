@@ -21,10 +21,10 @@ public class SimpleArray<T> implements Iterable<T> {
     public T set(int index, T model) throws ArrayIndexOutOfBoundsException {
         checkException(index);
         T result = null;
-        int position = Arrays.asList(objects).indexOf(model);
-        if (position != -1) {
+        int positionModel = Arrays.asList(objects).indexOf(model);
+        if (positionModel != -1 && position > index) {
             objects[index] = model;
-            remove(position);
+            remove(positionModel);
             result = model;
         }
         return result;
