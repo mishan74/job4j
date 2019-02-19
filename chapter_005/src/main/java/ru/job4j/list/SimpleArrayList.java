@@ -22,8 +22,14 @@ public class SimpleArrayList<E> {
     /**
      * Реализовать метод удаления первого элемент в списке.
      */
-    public E delete() {
-        return null;
+    public E delete() throws IllegalArgumentException {
+        if (size == 0) {
+            throw  new IllegalArgumentException();
+        }
+        E result = this.first.date;
+        this.first = this.first.next;
+        this.size--;
+        return result;
     }
 
     /**
@@ -49,7 +55,7 @@ public class SimpleArrayList<E> {
      */
     private static class Node<E> {
 
-        E date;
+        final E date;
         Node<E> next;
 
         Node(E date) {
