@@ -10,8 +10,8 @@ public class SimpleQueue<E> {
     final SimpleStack<E> forDelete;
 
     public SimpleQueue() {
-        forAdd = new SimpleStack<>();
-        forDelete = new SimpleStack<>();
+        forAdd = new SimpleStack<>(new SimpleArrayList());
+        forDelete = new SimpleStack<>(new SimpleArrayList());
     }
     public E poll() {
         if (forDelete.getSize() == 0) {

@@ -13,7 +13,7 @@ import static org.hamcrest.core.Is.is;
 public class SimpleStackTest {
     @Test
     public void whenAddedThreeElementsAndPollThenThatResult() {
-        SimpleStack<String> ss = new SimpleStack<>();
+        SimpleStack<String> ss = new SimpleStack<>(new SimpleArrayList());
         ss.push("Uno");
         ss.push("Dos");
         ss.push("Tres");
