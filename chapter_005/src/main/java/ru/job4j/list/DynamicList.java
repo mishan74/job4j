@@ -2,6 +2,7 @@ package ru.job4j.list;
 
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 
 /**
@@ -72,6 +73,9 @@ public class DynamicList<E> implements Iterable {
             @Override
             public E next() {
                 checkException();
+                if (!hasNext()) {
+                    throw new NoSuchElementException();
+                }
                 E result = temp.date;
                 temp = temp.next;
                 count++;

@@ -3,6 +3,7 @@ package ru.job4j.list;
 import java.util.Arrays;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
  * @author Mikhail Rozdin
@@ -60,7 +61,7 @@ public class DynamicArray<E> implements Iterable {
      * @param index index of array.
      * @return value.
      */
-    @SuppressWarnings("unchecked")
+    //@SuppressWarnings("unchecked")
     public E get(int index) throws IllegalArgumentException {
         if (index < 0) {
             throw new IllegalArgumentException();
@@ -93,9 +94,12 @@ public class DynamicArray<E> implements Iterable {
             }
 
             @Override
-            @SuppressWarnings("unchecked")
-            public E next() {
+            //@SuppressWarnings("unchecked")
+            public E next() throws NoSuchElementException {
                 checkException();
+                if (!hasNext()) {
+                    throw new NoSuchElementException();
+                }
                 return (E) objects[count++];
             }
         };

@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
@@ -50,7 +51,7 @@ public class DynamicArrayTest {
         dynamicArray = new DynamicArray<>(-3);
     }
 
-    @Test
+    @Test (expected = NoSuchElementException.class)
     public void whenIteratorThenIterate() {
         Iterator<String> iter = dynamicArray.iterator();
         assertThat(iter.hasNext(), is(true));
@@ -67,6 +68,7 @@ public class DynamicArrayTest {
         assertThat(iter.hasNext(), is(true));
         assertThat(iter.next(), is("Tenth"));
         assertThat(iter.hasNext(), is(false));
+        iter.next();
     }
 
     @Test (expected = ConcurrentModificationException.class)
