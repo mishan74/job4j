@@ -18,9 +18,9 @@ public class UserTest {
         User user1 = new User("Viktor", 2, new GregorianCalendar(1888, Calendar.MARCH,12));
         User user2 = new User("Viktor", 2, new GregorianCalendar(1888, Calendar.MARCH,12));
 
-        Map<String, Object> map = new HashMap();
-        map.put("First", user1);
-        map.put("Second", user2);
+        Map<User, Object> map = new HashMap();
+        map.put(user1, "First");
+        map.put(user2, "Second");
 
         System.out.println(map);
 
