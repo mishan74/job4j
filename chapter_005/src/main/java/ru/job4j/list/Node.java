@@ -6,7 +6,7 @@ package ru.job4j.list;
  * @since 0.1
  */
 public class Node<T> {
-    T value;
+    final T value;
     Node<T> next;
 
     public Node(T value) {
