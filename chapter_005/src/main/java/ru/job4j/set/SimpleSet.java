@@ -17,16 +17,19 @@ public class SimpleSet<E> implements Iterable {
     }
 
     public void add(E value) {
-        boolean added = true;
+       if (!contains(value)) {
+           dynamicArray.add(value);
+       }
+    }
+    public boolean contains(E value) {
+        boolean result = false;
         for (Object o : dynamicArray) {
             if (o.equals(value)) {
-                added = false;
+                result = true;
                 break;
             }
         }
-       if (added) {
-           dynamicArray.add(value);
-       }
+        return result;
     }
 
     public Iterator iterator() {

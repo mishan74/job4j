@@ -2,6 +2,7 @@ package ru.job4j.set;
 
 import org.junit.Test;
 
+import java.lang.reflect.Field;
 import java.util.Iterator;
 
 import static org.hamcrest.core.Is.is;
@@ -29,5 +30,11 @@ public class SimpleSetTest {
         assertThat(iterator.hasNext(), is(true));
         assertThat(iterator.next(), is("First"));
         assertThat(iterator.hasNext(), is(false));
+    }
+    @Test
+    public void whenAddInSetThenContains() {
+        SimpleSet<String> ss = new SimpleSet<>();
+        ss.add("First");
+        ss.contains("First");
     }
 }
