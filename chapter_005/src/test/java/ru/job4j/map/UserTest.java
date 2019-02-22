@@ -15,8 +15,8 @@ import java.util.Map;
 public class UserTest {
     @Test
     public void testMethodForMap() {
-        User user1 = new User("Viktor", 2, new GregorianCalendar(1888, Calendar.MARCH,12));
-        User user2 = new User("Viktor", 2, new GregorianCalendar(1888, Calendar.MARCH,12));
+        User user1 = new User("Viktor", 2, new GregorianCalendar(1888, Calendar.MARCH, 12));
+        User user2 = new User("Viktor", 2, new GregorianCalendar(1888, Calendar.MARCH, 12));
 
         Map<User, Object> map = new HashMap();
         map.put(user1, "First");
