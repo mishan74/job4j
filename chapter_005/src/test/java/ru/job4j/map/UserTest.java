@@ -7,6 +7,10 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThat;
+
 /**
  * @author Mikhail Rozdin
  * @version $Id$
@@ -19,10 +23,8 @@ public class UserTest {
         User user2 = new User("Viktor", 2, new GregorianCalendar(1888, Calendar.MARCH, 12));
 
         Map<User, Object> map = new HashMap();
-        map.put(user1, "First");
-        map.put(user2, "Second");
-
-        System.out.println(map);
+        assertNull(map.put(user1, "First"));
+        assertThat(map.put(user2, "Second"), is("First"));
 
 
     }
