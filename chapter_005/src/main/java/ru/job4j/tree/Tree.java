@@ -7,18 +7,30 @@ import java.util.*;
  * @version $Id$
  * @since 0.1
  */
-public class Tree<E extends Comparable<E>> implements SimpleTree<E>, Iterable<E> {
+public class Tree<E extends Comparable<E>> implements SimpleTree<E>, Iterable<Node<E>> {
 
     private int modCount = 0;
     private final Node<E> root;
     public Tree(int root) {
         this.root = (Node<E>) new Node<>(root);
     }
+    boolean isBinary() {
+        boolean result = true;
+        Iterator<Node<E>> iterator = iterator();
+        while (iterator.hasNext()) {
+            Node<E> temp = iterator.next();
+            if (temp.leaves().size() > 2) {
+                result = false;
+                break;
+            }
+        }
+        return result;
+    }
 
-    @Override
-    public Iterator<E> iterator() {
 
-        return new Iterator() {
+    public Iterator<Node<E>> iterator() {
+
+        return new Iterator<>() {
             private final int mod = modCount;
             Queue<Node<E>> data;
             {
@@ -39,14 +51,14 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E>, Iterable<E>
             }
 
             @Override
-            public E next() {
+            public Node<E> next() {
                 checkException();
                 if (!hasNext()) {
                     throw new NoSuchElementException();
                 }
                 Node<E> result = this.data.poll();
                 data.addAll(result.leaves());
-                return result.getValue();
+                return result;
             }
         };
     }
