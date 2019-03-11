@@ -16,15 +16,18 @@ public class EvenNumbersTest {
     @Test
     public void whenNumberIsEvenThenTrue() {
         EvenNumbers evenNumbers = new EvenNumbers();
-        int test = 532;
         boolean result = evenNumbers.isNumber(new ByteArrayInputStream("532".getBytes()));
         assertThat(result, is(true));
     }
     @Test
     public void whenNumberIsNotEvenThenFalse() {
         EvenNumbers evenNumbers = new EvenNumbers();
-        int test = 532;
         boolean result = evenNumbers.isNumber(new ByteArrayInputStream("11".getBytes()));
         assertThat(result, is(false));
+    }
+    @Test (expected = NumberFormatException.class)
+    public void whenNoNumberThenExpected() {
+        EvenNumbers evenNumbers = new EvenNumbers();
+        boolean result = evenNumbers.isNumber(new ByteArrayInputStream("1d".getBytes()));
     }
 }

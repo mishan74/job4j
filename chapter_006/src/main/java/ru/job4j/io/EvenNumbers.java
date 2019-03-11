@@ -9,24 +9,26 @@ import java.io.*;
  */
 public class EvenNumbers {
     boolean isNumber(InputStream in) {
-        int result = 1;
+        boolean result = false;
         char symbol;
-        StringBuilder temp = new StringBuilder();
-
         try (BufferedReader br = new BufferedReader(new InputStreamReader(in))) {
             int i;
+            int temp = -1;
             do {
                 i = br.read();
-                if (i != -1) {
-                    symbol = (char) i;
-                    temp.append(symbol);
+                if (i != -1 && (i < 48 || i > 57)) {
+                    throw new NumberFormatException("Введено не число");
                 }
+                if (i == -1) {
+                    result = temp % 2 == 0;
+                }
+                temp = i;
             } while (i != -1);
-            result = Integer.valueOf(temp.toString());
-        } catch (IOException | NumberFormatException e) {
+
+        } catch (IOException e) {
             e.printStackTrace();
         }
-        return result % 2 == 0;
+        return result;
     }
 }
 
