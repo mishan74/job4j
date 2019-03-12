@@ -1,7 +1,10 @@
 package ru.job4j.io;
 
 import java.io.*;
-import java.util.Scanner;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * @author Mikhail Rozdin
@@ -10,15 +13,16 @@ import java.util.Scanner;
  */
 public class Abuse {
     void dropAbuses(InputStream in, OutputStream out, String[] abuse) {
-        Scanner scanner = new Scanner(in);
-        try (OutputStreamWriter outputStreamWriter = new OutputStreamWriter(out)) {
-            while (scanner.hasNext()) {
-                String temp = scanner.nextLine();
-                for (String s : abuse) {
-                    temp = temp.replaceAll(s, "");
-                }
-                outputStreamWriter.write(temp.trim());
-            }
+        List<String> check = Arrays.asList(abuse);
+        try (OutputStreamWriter outputStreamWriter = new OutputStreamWriter(out);
+        BufferedReader br = new BufferedReader(new InputStreamReader(in))) {
+               outputStreamWriter.write(
+                       br.lines()
+                               .flatMap(x -> Stream
+                                       .of(x.split(" "))
+                                       .filter(z -> !check.contains(z)))
+                               .collect(Collectors.joining(" "))
+                );
         } catch (IOException e) {
             e.printStackTrace();
         }
