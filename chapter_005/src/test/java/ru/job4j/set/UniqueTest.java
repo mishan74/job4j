@@ -24,6 +24,18 @@ public class UniqueTest {
         String second = "He";
         assertThat(unique.isUnique(first, second), is(true));
     }
+    @Test
+    public void whenNoDuplicateThenTrue() {
+        String first = "Hello";
+        String second = "llHeo";
+        assertThat(unique.isUnique(first, second), is(true));
+    }
+    @Test
+    public void whenDuplicateThenFalse() {
+        String first = "Hello";
+        String second = "eHolll";
+        assertThat(unique.isUnique(first, second), is(false));
+    }
 
     @Test
     public void whenNotUniqueThenFalse() {

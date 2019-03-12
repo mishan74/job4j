@@ -1,6 +1,8 @@
 package ru.job4j.set;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -14,16 +16,35 @@ public class Unique {
     /**
      * Проверка уникальности символов строк
      */
-    public boolean isUnique(String first, String second) {
-        int checkSize;
-        Set<Character> uniqueSet = new HashSet<>();
-        for (char a : first.toCharArray()) {
-            uniqueSet.add(a);
+    public boolean isUnique(String first, String sub) {
+        boolean result = true;
+        Map<Character, Integer> temp = new HashMap<>();
+        for (char c : first.toCharArray()) {
+            Integer n = temp.get(c);
+            if (n == null) {
+                temp.put(c, 1);
+            } else {
+                temp.put(c, ++n);
+            }
         }
-        checkSize = uniqueSet.size();
-        for (char a : second.toCharArray()) {
-            uniqueSet.add(a);
+        for (char c : sub.toCharArray()) {
+            Integer n = temp.get(c);
+            if (n == null || n <= 0) {
+                result = false;
+                break;
+            }
+            temp.put(c, --n);
         }
-        return checkSize == uniqueSet.size();
+        return result;
     }
 }
+    //int checkSize;
+    //Set<Character> uniqueSet = new HashSet<>();
+    //    for (char a : first.toCharArray()) {
+    //            uniqueSet.add(a);
+    //            }
+    //            checkSize = uniqueSet.size();
+    //            for (char a : second.toCharArray()) {
+    //            uniqueSet.add(a);
+    //            }
+    //            return checkSize == uniqueSet.size();
