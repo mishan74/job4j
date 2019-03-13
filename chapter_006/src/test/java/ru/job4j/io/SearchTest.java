@@ -15,19 +15,20 @@ import static org.hamcrest.core.Is.is;
 
 public class SearchTest {
     String path;
+    String separator = File.separator;
     @Before
     public void init() {
         path = System.getProperty("java.io.tmpdir");
         System.out.println(path);
 
-        File temp = new File(path + "\\javatest");
+        File temp = new File(path + separator + "javatest");
         boolean dir1 = temp.mkdir();
-        temp = new File(path + "\\javatest\\test");
+        temp = new File(path + separator + "javatest" + separator + "test");
         boolean dir2 = temp.mkdir();
         try (
-                FileOutputStream one = new FileOutputStream(path + "\\javatest\\test\\one.txt");
-                FileOutputStream two = new FileOutputStream(path + "\\javatest\\test\\two.rtf");
-                FileOutputStream six = new FileOutputStream(path + "\\javatest\\six.jpeg")
+                FileOutputStream one = new FileOutputStream(path + separator + "javatest" + separator + "test" + separator + "one.txt");
+                FileOutputStream two = new FileOutputStream(path + separator + "javatest" + separator + "test" + separator + "two.rtf");
+                FileOutputStream six = new FileOutputStream(path + separator + "javatest" + separator + "six.jpeg")
 
         ) {
             one.write("Text".getBytes());
