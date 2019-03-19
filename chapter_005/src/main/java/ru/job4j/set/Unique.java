@@ -20,31 +20,17 @@ public class Unique {
         boolean result = true;
         Map<Character, Integer> temp = new HashMap<>();
         for (char c : first.toCharArray()) {
-            Integer n = temp.get(c);
-            if (n == null) {
-                temp.put(c, 1);
-            } else {
-                temp.put(c, ++n);
-            }
+            temp.merge(c, 1, Integer::sum);
+            // temp.computeIfPresent(c, (k, v) -> ++v);
+            // temp.putIfAbsent(c, 1);
         }
         for (char c : sub.toCharArray()) {
-            Integer n = temp.get(c);
-            if (n == null || n <= 0) {
+            Integer n = temp.merge(c, -1, Integer::sum);
+            if (n < 0) {
                 result = false;
                 break;
             }
-            temp.put(c, --n);
         }
         return result;
     }
 }
-    //int checkSize;
-    //Set<Character> uniqueSet = new HashSet<>();
-    //    for (char a : first.toCharArray()) {
-    //            uniqueSet.add(a);
-    //            }
-    //            checkSize = uniqueSet.size();
-    //            for (char a : second.toCharArray()) {
-    //            uniqueSet.add(a);
-    //            }
-    //            return checkSize == uniqueSet.size();
