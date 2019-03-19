@@ -15,7 +15,7 @@ import static org.hamcrest.core.Is.is;
 
 public class SearchTest {
     String path;
-    String separator = File.separator;
+    final String separator = File.separator;
     @Before
     public void init() {
         path = System.getProperty("java.io.tmpdir");
@@ -43,7 +43,7 @@ public class SearchTest {
     public void whenFilterSearchThenResult() {
         Search search = new Search();
         List<String> check = Arrays.asList(".txt", ".jpeg");
-        List<File> files = search.files(path, check);
+        List<File> files = search.files(path + separator + "javatest", check);
         List<String> expected = Arrays.asList(
                  "six.jpeg", "one.txt"
         );
