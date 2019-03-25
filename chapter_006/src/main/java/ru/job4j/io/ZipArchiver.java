@@ -25,7 +25,7 @@ public class ZipArchiver {
      *
      * @param directory Дирректория, которую надо архивировать
      * @param exclude Файл, или расширение, которое необходимо исключить из архива
-     * @param output Путь + Имя архива, или Имя (архив создастся в корне программы)
+     * @param output Путь + Имя архива, или Имя (архив создастя в корне программы)
      */
     public ZipArchiver(String directory, String exclude, String output) {
         this.path = new File(directory);
