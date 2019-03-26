@@ -42,7 +42,7 @@ public class ZipArchiverTest {
     @Test
     public void whenAddZipThenArchivIsCreated() {
         ZipArchiver zipArchiver = new ZipArchiver(path + separator + "javaZipTest", ".rtf", path + separator + "testJZip.zip");
-        zipArchiver.doZip();
+        zipArchiver.zip(zipArchiver.seek());
         try (ZipInputStream zipInputStream = new ZipInputStream(new FileInputStream(path + separator + "testJZip.zip"))) {
             ZipEntry zEntry;
             while ((zEntry = zipInputStream.getNextEntry()) != null) {

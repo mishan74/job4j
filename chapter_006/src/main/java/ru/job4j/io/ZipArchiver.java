@@ -16,10 +16,9 @@ import java.util.zip.ZipOutputStream;
  * и исключаемыми, если указаны в переменной exclude.
  */
 public class ZipArchiver {
-    final File path;
-    final String output;
-    final String exclude;
-    final List<File> files;
+    private final File path;
+    private final String output;
+    private final String exclude;
 
     /**
      *
@@ -31,51 +30,69 @@ public class ZipArchiver {
         this.path = new File(directory);
         this.output = output;
         this.exclude = exclude;
-        this.files = new Search().files(directory, Collections.singletonList(""));
     }
 
     /**
-     * Проход по иерархии файловой структуры проходит методом в ширину,
+     * Проход по иерархии файловой структуры, проходит методом в ширину,
      * данные добавляются в Queue, достаются поочередно, и сразу проверяются не является ли файл дирректорией
-     * Если файл дирректория, он добавляется в Zip, в Queue добавляются все элементы из этой дирректории.
+     * Если файл дирректория, он добавляется в результирующую структуру Deque, также туда добавляются все элементы из этой дирректории.
      * Если файл не дирректория, осуществляется проверка на НЕсоответствие параметру exclude, если проверка прошла успешна,
-     * файл добавляется в Zip, затем записывается через FileInputStream;
+     * файл добавляется в результирующую переменную Deque
+     * @return Структура файлов в связном списке, без файлов exclude.
      */
-    public void doZip() {
-        try (ZipOutputStream zout = new ZipOutputStream(new FileOutputStream(output))) {
-            Queue<File> data = new LinkedList<>();
-            data.offer(path);
-            while (!data.isEmpty()) {
-                File file = data.poll();
+    public Deque<File> seek() {
+            Queue<File> temp = new LinkedList<>();
+            Deque<File> result = new LinkedList<>();
+            temp.offer(path);
+            while (!temp.isEmpty()) {
+                File file = temp.poll();
                 if (file.isDirectory()) {
-                    zout.putNextEntry(new ZipEntry(getPath(file) + File.separator));
+                    result.offer(file);
                     for (File f : file.listFiles()) {
-                        data.offer(f);
+                        temp.offer(f);
                     }
                 } else {
                     if (!file.getName().contains(exclude)) {
-                        FileInputStream fin = new FileInputStream(file.getPath());
-                        zout.putNextEntry(new ZipEntry(getPath(file)));
-                        byte[] buffer = new byte[64 * 1024];
-                        int length;
-                        while ((length = fin.read(buffer)) != -1) {
-                            zout.write(buffer, 0, length);
-                        }
-                        zout.closeEntry();
-                        fin.close();
+                        result.offer(file);
                     }
+                }
+            }
+            return result;
+    }
+
+    /**
+     * Получая в параметрах структуру файлов, метод проходится по ней, извлекая элементы сконца,
+     * архивируя каждый элемент. Если элемент является дирректорией, добавляется новый элемент ZipEntry,
+     * если элемент не дирректория, добавляется новый элемент ZipEntry, записывается через FileInputStream
+     * @param data Связный список файловой структуры.
+     */
+    public void zip(Deque<File> data) {
+        try (ZipOutputStream zout = new ZipOutputStream(new FileOutputStream(output))) {
+            while (!data.isEmpty()) {
+                File file = data.pollLast();
+                if (file.isDirectory()) {
+                    zout.putNextEntry(new ZipEntry(getPath(file) + File.separator));
+                } else {
+                    FileInputStream fin = new FileInputStream(file.getPath());
+                    zout.putNextEntry(new ZipEntry(getPath(file)));
+                    byte[] buffer = new byte[64 * 1024];
+                    int length;
+                    while ((length = fin.read(buffer)) != -1) {
+                        zout.write(buffer, 0, length);
+                    }
+                    zout.closeEntry();
+                    fin.close();
                 }
             }
         }
         catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     /**
      * Метод парсит путь к файлу, удаляя путь до архива,
-     * и стирая первый разделитель пути файла, если имя файланачинается с него
+     * и стирая первый разделитель пути файла, если имя файла начинается с него
      * @param file файл.
      * @return форматированное полное имя файла.
      */

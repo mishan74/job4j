@@ -58,6 +58,6 @@ public class Args {
         String exclude = result.action.get("-e");
         String output = result.action.get("-o");
         ZipArchiver zipArchiver = new ZipArchiver(directory, exclude, output);
-        zipArchiver.doZip();
+        zipArchiver.zip(zipArchiver.seek());
     }
 }
