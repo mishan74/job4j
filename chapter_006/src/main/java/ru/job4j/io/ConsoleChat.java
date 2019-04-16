@@ -13,8 +13,8 @@ import java.util.Scanner;
 public class ConsoleChat {
     private final File sourceFile;
     private final File log;
+    private final List<String> phrases = new ArrayList<>();
     private final Scanner scanner;
-    private List<Integer> points;
     private final String bot = "BOT: ";
     private final String user = "USER: ";
 
@@ -29,13 +29,13 @@ public class ConsoleChat {
      * Основной метод класса, запускает цикл, в котором происходит работа чата.
      */
     public void start() {
-        points = this.findAllPoints(sourceFile);
+        findAllPhrases(sourceFile);
         try (RandomAccessFile rout = new RandomAccessFile(sourceFile, "r");
         BufferedWriter bout = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(log)))) {
             String userText = null;
             do {
                 if (userText != null) {
-                    readPhrase(rout, bout);
+                    readPhrase(bout);
                 }
                 System.out.print(user);
                 userText = scanner.nextLine();
@@ -71,53 +71,46 @@ public class ConsoleChat {
     }
 
     /**
-     * Метод читает рандомную фразу из файла. Вначале определяется рандомная позиция,
-     * затем побайтово считывается фраза, до символа '.' Метод не учитывает, что возможно чтение до конца
-     * файла, тк подразумевает, что последняя фраза также заканчивается символом '.'
-     * @param file Файловый поток чтения.
+     * Метод читает рандомную фразу из файла.
      * @param writer Поток записи в лог.
      * @throws IOException ошибка ввода вывода
      */
-    private void readPhrase(RandomAccessFile file, Writer writer) throws IOException {
-        int random = (int) (Math.random() * points.size());
-        file.seek(points.get(random));
-        char c;
-        StringBuilder sb = new StringBuilder();
-        sb.append(bot);
-        while ((c = (char) file.read()) != '.') {
-            sb.append(c);
-        }
-        sb.append(System.lineSeparator());
-        String result = sb.toString();
+    private void readPhrase(Writer writer) throws IOException {
+        int random = (int) (Math.random() * phrases.size());
+        String result = bot
+                + phrases.get(random)
+                + System.lineSeparator();
         System.out.print(result);
         writer.append(result);
     }
 
     /**
-     * Метод ищет все точки в файле, затем добавляет в список позицию следующего предложения.
+     * Метод ищет все точки в файле, затем добавляет в список предложение.
      * @param file Файл, который следует проверить
-     * @return Список с координатами начал предложений в файле
      */
-    public List<Integer> findAllPoints(File file) {
-        List<Integer> result = new ArrayList<>();
+    public void findAllPhrases(File file) {
 
-        try (InputStream inputStream = new FileInputStream(file)) {
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             if (file.length() < 1) {
                 throw new IOException("Empty File");
             }
-            int count = 0;
-            int check;
-            while ((check = inputStream.read()) != -1) {
-                if ((char) check == '.') {
-                    result.add(count + 2);
-
+            int character;
+            StringBuilder sb = new StringBuilder();
+            while ((character = br.read()) != -1) {
+                if (((char) character) != '.') {
+                    sb.append((char) character);
+                    continue;
                 }
-                count++;
+                this.phrases.add(sb.toString());
+                sb.delete(0, sb.capacity());
             }
-            result.set(result.size() - 1, 0);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return result;
+    }
+
+    public static void main(String[] args) {
+        ConsoleChat consoleChat = new ConsoleChat("text.txt", "log.txt");
+        consoleChat.start();
     }
 }

@@ -4,7 +4,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.*;
-import java.util.List;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
@@ -36,11 +35,6 @@ public class ConsoleChatTest {
         System.setIn(is);
         consoleChat = new ConsoleChat("text.txt",
                 System.getProperty("java.io.tmpdir") + File.separator + "Log.txt");
-    }
-    @Test
-    public void whenCheckAllPointsThenResult() {
-        List<Integer> list = consoleChat.findAllPoints(new File("text.txt"));
-        assertThat(list.size(), is(9));
     }
 
     @Test
