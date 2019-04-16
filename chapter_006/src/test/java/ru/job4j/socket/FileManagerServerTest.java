@@ -39,7 +39,7 @@ public class FileManagerServerTest {
         }
     }
     @Test
-    public void whenHelloThenResp() throws IOException {
+    public void whenUpToDirectoryThenContainsItFile() throws IOException {
         Socket mainSocket = mock(Socket.class);
         //System.setIn(new ByteArrayInputStream("0".getBytes()));
         ByteArrayInputStream in = new ByteArrayInputStream(
@@ -53,16 +53,7 @@ public class FileManagerServerTest {
         FileManagerServer server = new FileManagerServer(mainSocket, fileSocket, PATH + SP + "child" + SP +  "underChild");
 
         server.start();
-        assertThat(out.toString().replaceAll(LS, ""), is(
-                PATH + SP + "child" + SP +  "underChild"
-                        + "0. Вверх.."
-                        + "1. Загрузить файл"
-                        + PATH + SP + "child"
-                        + "0. Вверх.."
-                        + "1. two.txt"
-                        + "2. underChild"
-                        + "3. Загрузить файл"
-                        + "bye"));
+        assertThat(out.toString().replaceAll(LS, "").contains("two.txt"), is(true));
     }
     @Test
     public void whenUploadThenOk() throws IOException {
