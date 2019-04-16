@@ -31,7 +31,7 @@ public class FileManagerServerTest {
         File temp2 = new File(PATH + SP + "child" + SP +  "underChild");
         boolean dir2 = temp2.mkdir();
         temp2.deleteOnExit();
-        File temp3 = new File(PATH + SP + "child" + SP + "zed.txt");
+        File temp3 = new File(PATH + SP + "child" + SP +  "underChild" + SP + "zed.txt");
         try  {
             boolean file1 = temp3.createNewFile();
         } catch (IOException e) {
@@ -43,14 +43,14 @@ public class FileManagerServerTest {
         Socket mainSocket = mock(Socket.class);
         //System.setIn(new ByteArrayInputStream("0".getBytes()));
         ByteArrayInputStream in = new ByteArrayInputStream(
-                ("0" + LS + "exit")
+                ("1" + LS + "exit")
                         .getBytes());
         ByteArrayOutputStream out = new ByteArrayOutputStream();
 
         when(mainSocket.getInputStream()).thenReturn(in);
         when(mainSocket.getOutputStream()).thenReturn(out);
         ServerSocket fileSocket = mock(ServerSocket.class);
-        FileManagerServer server = new FileManagerServer(mainSocket, fileSocket, PATH + SP + "child" + SP +  "underChild");
+        FileManagerServer server = new FileManagerServer(mainSocket, fileSocket, PATH + SP + "child");
 
         server.start();
         assertThat(out.toString().replaceAll(LS, "").contains("zed.txt"), is(true));
@@ -59,7 +59,7 @@ public class FileManagerServerTest {
     public void whenUploadThenOk() throws IOException {
         Socket mainSocket = mock(Socket.class);
         //System.setIn(new ByteArrayInputStream("0".getBytes()));
-        BufferedInputStream in = new BufferedInputStream(new ByteArrayInputStream(String.join(LS, "2", "yes", "exit").getBytes()));
+        BufferedInputStream in = new BufferedInputStream(new ByteArrayInputStream(String.join(LS, "1", "yes", "exit").getBytes()));
 
         ByteArrayOutputStream out = new ByteArrayOutputStream();
 
@@ -69,15 +69,16 @@ public class FileManagerServerTest {
         Socket fileSocket = mock(Socket.class);
         when(serverFileSocket.accept()).thenReturn(fileSocket);
         FileOutputStream fileOutputStream = new FileOutputStream(
-                PATH + SP + "child" + SP +  "underChild" + SP + "three.txt");
+                PATH + SP + "child" + SP + "three.txt");
         when(fileSocket.getOutputStream()).thenReturn(fileOutputStream);
-        FileManagerServer server = new FileManagerServer(mainSocket, serverFileSocket, PATH + SP + "child");
+        FileManagerServer server = new FileManagerServer(mainSocket, serverFileSocket, PATH + SP + "child" + SP +  "underChild");
 
         server.start();
-        File file = new File(PATH + SP + "child" + SP +  "underChild");
-        String[] files = file.list();
-        assertThat(files[0], is("three.txt"));
-        File del = new File(PATH + SP + "child" + SP +  "underChild" + SP + "three.txt");
+        File file = new File(PATH + SP + "child");
+        File[] files = file.listFiles();
+        String newFile = files[0].isFile() ? files[0].getName() : files[1].getName();
+        assertThat(newFile, is("three.txt"));
+        File del = new File(PATH + SP + "child" + SP + "three.txt");
         del.delete();
     }
     @Test
@@ -85,7 +86,7 @@ public class FileManagerServerTest {
         Socket mainSocket = mock(Socket.class);
         //System.setIn(new ByteArrayInputStream("0".getBytes()));
         ByteArrayInputStream in = new ByteArrayInputStream(
-                ("1" + LS + "three.txt" + LS + "exit")
+                ("2" + LS + "three.txt" + LS + "exit")
                         .getBytes());
         ByteArrayOutputStream out = new ByteArrayOutputStream();
 
@@ -95,19 +96,20 @@ public class FileManagerServerTest {
         Socket fileSocket = mock(Socket.class);
         when(serverFileSocket.accept()).thenReturn(fileSocket);
         FileInputStream fileInputStream = new FileInputStream(
-                PATH + SP + "child" + SP +  "zed.txt");
+                PATH + SP + "child" + SP +  "underChild" + SP + "zed.txt");
         when(fileSocket.getInputStream()).thenReturn(fileInputStream);
-        FileManagerServer server = new FileManagerServer(mainSocket, serverFileSocket, PATH + SP + "child" + SP +  "underChild");
+        FileManagerServer server = new FileManagerServer(mainSocket, serverFileSocket, PATH + SP + "child");
 
         server.start();
-        File file = new File(PATH + SP + "child" + SP +  "underChild");
-        String[] files = file.list();
-        assertThat(files[0], is("three.txt"));
-        File del = new File(PATH + SP + "child" + SP +  "underChild" + SP + "three.txt");
+        File file = new File(PATH + SP + "child");
+        File[] files = file.listFiles();
+        String newFile = files[0].isFile() ? files[0].getName() : files[1].getName();
+        assertThat(newFile, is("three.txt"));
+        File del = new File(PATH + SP + "child" + SP + "three.txt");
         del.delete();
     }
     @AfterClass
     public static void deInit() {
-        new File(PATH + SP + "child" + SP + "zed.txt").deleteOnExit();
+        new File(PATH + SP + "child" + SP + "underChild" + SP + "zed.txt").deleteOnExit();
     }
 }
