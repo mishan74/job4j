@@ -31,7 +31,7 @@ public class FileManagerServerTest {
         File temp2 = new File(PATH + SP + "child" + SP +  "underChild");
         boolean dir2 = temp2.mkdir();
         temp2.deleteOnExit();
-        File temp3 = new File(PATH + SP + "child" + SP + "two.txt");
+        File temp3 = new File(PATH + SP + "child" + SP + "zed.txt");
         try  {
             boolean file1 = temp3.createNewFile();
         } catch (IOException e) {
@@ -53,14 +53,14 @@ public class FileManagerServerTest {
         FileManagerServer server = new FileManagerServer(mainSocket, fileSocket, PATH + SP + "child" + SP +  "underChild");
 
         server.start();
-        assertThat(out.toString().replaceAll(LS, "").contains("two.txt"), is(true));
+        assertThat(out.toString().replaceAll(LS, "").contains("zed.txt"), is(true));
     }
     @Test
     public void whenUploadThenOk() throws IOException {
         Socket mainSocket = mock(Socket.class);
         //System.setIn(new ByteArrayInputStream("0".getBytes()));
         ByteArrayInputStream in = new ByteArrayInputStream(
-                ("1" + LS + "yes" + LS + "exit")
+                ("2" + LS + "yes" + LS + "exit")
                         .getBytes());
         ByteArrayOutputStream out = new ByteArrayOutputStream();
 
@@ -96,7 +96,7 @@ public class FileManagerServerTest {
         Socket fileSocket = mock(Socket.class);
         when(serverFileSocket.accept()).thenReturn(fileSocket);
         FileInputStream fileInputStream = new FileInputStream(
-                PATH + SP + "child" + SP +  "two.txt");
+                PATH + SP + "child" + SP +  "zed.txt");
         when(fileSocket.getInputStream()).thenReturn(fileInputStream);
         FileManagerServer server = new FileManagerServer(mainSocket, serverFileSocket, PATH + SP + "child" + SP +  "underChild");
 
@@ -109,6 +109,6 @@ public class FileManagerServerTest {
     }
     @AfterClass
     public static void deInit() {
-        new File(PATH + SP + "child" + SP + "two.txt").deleteOnExit();
+        new File(PATH + SP + "child" + SP + "zed.txt").deleteOnExit();
     }
 }
