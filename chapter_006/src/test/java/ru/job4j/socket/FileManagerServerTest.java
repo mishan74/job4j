@@ -59,9 +59,8 @@ public class FileManagerServerTest {
     public void whenUploadThenOk() throws IOException {
         Socket mainSocket = mock(Socket.class);
         //System.setIn(new ByteArrayInputStream("0".getBytes()));
-        ByteArrayInputStream in = new ByteArrayInputStream(
-                ("2" + LS + "yes" + LS + "exit")
-                        .getBytes());
+        BufferedInputStream in = new BufferedInputStream(new ByteArrayInputStream(String.join(LS, "2", "yes", "exit").getBytes()));
+
         ByteArrayOutputStream out = new ByteArrayOutputStream();
 
         when(mainSocket.getInputStream()).thenReturn(in);
