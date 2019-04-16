@@ -109,6 +109,6 @@ public class FileManagerClientTest {
     }
     @AfterClass
     public static void deInit() {
-        new File(PATH + SP + "child" + SP + "two.txt").deleteOnExit();
+        new File(PATH + SP + "child" + SP + "two.txt").delete();
     }
 }
