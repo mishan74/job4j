@@ -33,21 +33,22 @@ public class ConsoleChat {
         try (RandomAccessFile rout = new RandomAccessFile(sourceFile, "r");
         BufferedWriter bout = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(log)))) {
             String userText = null;
-            do {
+            boolean stop = false;
+            while (!stop) {
                 if (userText != null) {
                     readPhrase(bout);
                 }
                 System.out.print(user);
                 userText = scanner.nextLine();
+                stop = userText.equals("Stop");
                 bout.append(user);
                 bout.append(userText);
                 bout.append(System.lineSeparator());
 
                 if (userText.equals("Pause")) {
-                    takePause(bout);
+                   stop = takePause(bout);
                 }
             }
-            while (!userText.equals("Stop"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -58,16 +59,20 @@ public class ConsoleChat {
      * @param writer Поток записи в лог.
      * @throws IOException ошибка ввода вывода
      */
-    private void takePause(Writer writer) throws IOException {
+    private boolean takePause(Writer writer) throws IOException {
         String checkText;
+        boolean result;
+        boolean exit;
         do {
         System.out.print(user);
         checkText = scanner.nextLine();
+        result = checkText.equals("Stop");
+        exit = checkText.equals("Continue") || checkText.equals("Stop");
         writer.append(user);
         writer.append(checkText);
         writer.append(System.lineSeparator());
-
-        } while (!checkText.equals("Continue"));
+        } while (!exit);
+        return result;
     }
 
     /**
