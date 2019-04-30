@@ -20,10 +20,6 @@ public class FileManagerServer {
      * СерверСокет для передачи/приема файлов.
      */
     private final ServerSocket fileSocket;
-    /**
-     * Класс загрузки/выгрузки файла.
-     */
-    private final SimpleLoading sLoad = new SimpleLoading();
 
 
     private static final String LS = System.lineSeparator();
@@ -33,6 +29,10 @@ public class FileManagerServer {
      * Обновляется при переходе из дирректории в дирректорию.
      */
     private String root;
+    /**
+     * Класс действий.
+     */
+    private ServerActions serverActions;
     /**
      * String - Список файлов и дирректорий в текущей дирректории.
      * Integer - Порядковый номер.
@@ -73,27 +73,6 @@ public class FileManagerServer {
     }
 
     /**
-     * Метод загрузки файла.
-     * @param name имя файла.
-     * @throws IOException исключение ввода вывода.
-     */
-    private void downloadFile(String name) throws IOException {
-        try (Socket socket = this.fileSocket.accept()) {
-            this.sLoad.load(name, socket, false);
-        }
-    }
-
-    /**
-     * Метод выгрузки файла.
-     * @param name имя файла.
-     * @throws IOException исключение ввода вывода.
-     */
-    private void uploadFile(String name) throws IOException {
-        try (Socket socket = this.fileSocket.accept()) {
-            this.sLoad.load(name, socket, true);
-        }
-    }
-    /**
      * Метод старта сервера.
      * Сервер работает в цикле. Ожидает команды.
      */
@@ -101,6 +80,7 @@ public class FileManagerServer {
         try (PrintWriter out = new PrintWriter(this.socket.getOutputStream(), true);
              BufferedReader in = new BufferedReader(new InputStreamReader(this.socket.getInputStream()))) {
             String ask = "";
+            serverActions = new ServerActions(this.fileSocket, in, out);
             while (!("exit".equals(ask))) {
                 this.saveFiles();
                 out.println(this.root);
@@ -113,11 +93,7 @@ public class FileManagerServer {
                         continue;
                     }
                     if (action == (files.size() - 1)) {
-                        out.println("Введите имя файла" + LS);
-                        String fileName = in.readLine();
-                        out.println("Ожидание файлового потока" + LS);
-                        downloadFile(root + File.separator + fileName);
-                        out.println("Копирование файловуспешно завершено");
+                        serverActions.get("Download").execute(root + File.separator);
                         continue;
                     }
                     File file = new File(root + File.separator + files.get(action));
@@ -126,13 +102,7 @@ public class FileManagerServer {
                         continue;
                     }
                     if (!file.isDirectory()) {
-                        out.println("Выбран файл " + file.getName() + ". Чтобы скачать файл введите 'yes', или любой символ для отметы " + LS);
-                        String answer = in.readLine();
-                        if (answer.equals("yes")) {
-                            out.println("Загрузка файла" + LS);
-                            uploadFile(file.getAbsolutePath());
-                            out.println("Загрузка завершена");
-                        }
+                        serverActions.get("Upload").execute(file.getAbsolutePath());
                     }
                 }
             }

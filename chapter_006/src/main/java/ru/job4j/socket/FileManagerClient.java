@@ -14,10 +14,11 @@ public class FileManagerClient {
      * Основной сокет.
      */
     private final Socket socket;
+
     /**
-     * Класс загрузки/выгрузки файлов.
+     * Класс действий клиента
      */
-    private final Loading sLoad = new SimpleLoading();
+    ClientActions clientActions;
     /**
      * Файловый сокет.
      */
@@ -28,23 +29,6 @@ public class FileManagerClient {
         this.fileSocket = fileSocket;
     }
 
-    /**
-     * Метод выгрузки файлов.
-     * @param fileName имя файла.
-     * @throws IOException исключение ввода/вывода.
-     */
-    private void uploadFile(String fileName) throws IOException {
-            sLoad.load(fileName, this.fileSocket, true);
-    }
-    /**
-     * Метод загрузки файлов.
-     * @param fileName имя файла.
-     * @throws IOException исключение ввода/вывода.
-     */
-    private void downloadFile(String fileName) throws IOException {
-            sLoad.load(fileName, this.fileSocket, false);
-    }
-
     public void start() {
         try (PrintWriter out = new PrintWriter(this.socket.getOutputStream(), true);
              BufferedReader in = new BufferedReader(new InputStreamReader(this.socket.getInputStream()))) {
@@ -52,6 +36,7 @@ public class FileManagerClient {
             String message = "";
             String tmp;
             String query;
+            clientActions = new ClientActions(fileSocket);
             do {
                 tmp = in.readLine();
                 while (!tmp.isEmpty()) {
@@ -61,16 +46,12 @@ public class FileManagerClient {
                 }
                 if (!message.equals("bye")) {
                     if (message.equals("Ожидание файлового потока")) {
-                        System.out.println("Укажите путь и имя файла, который надо загрузить");
-                        String fileName = new Scanner(System.in).nextLine();
-                       uploadFile(fileName);
+                        this.clientActions.get("Upload").execute("");
                         continue;
 
                     }
                     if (message.equals("Загрузка файла")) {
-                        System.out.println("Укажите путь, и имя файла куда надо скачать файл");
-                        String fileName = new Scanner(System.in).nextLine();
-                        downloadFile(fileName);
+                        this.clientActions.get("Download").execute("");
                         continue;
                     }
                     query = console.nextLine();
