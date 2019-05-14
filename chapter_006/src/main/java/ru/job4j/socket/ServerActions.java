@@ -26,6 +26,13 @@ public class ServerActions {
      */
     private final Map<String, SimpleAction> actions = new HashMap();
 
+    public ServerActions(ServerSocket serverSocket, BufferedReader input, PrintWriter output) {
+        this.serverSocket = serverSocket;
+        this.input = input;
+        this.output = output;
+        fillActions();
+    }
+
     /**
      * Метод возвращает объект действия по ключу.
      * @param key ключ действия.
@@ -41,13 +48,6 @@ public class ServerActions {
     private void fillActions() {
         actions.put("Download", new Download());
         actions.put("Upload", new Upload());
-    }
-
-    public ServerActions(ServerSocket serverSocket, BufferedReader input, PrintWriter output) {
-        this.serverSocket = serverSocket;
-        this.input = input;
-        this.output = output;
-        fillActions();
     }
 
     /**

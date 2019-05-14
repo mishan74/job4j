@@ -23,17 +23,17 @@ public class Config {
     private final String path;
 
     /**
+     * pair key-value of config
+     */
+    private final Map<String, String> settings = new LinkedHashMap<>();
+
+    /**
      * constructor
      * @param path to file config
      */
     public Config(String path) {
         this.path = path;
     }
-
-    /**
-     * pair key-value of config
-     */
-    private final Map<String, String> settings = new LinkedHashMap<>();
 
     public Config load() {
         this.settings.clear();

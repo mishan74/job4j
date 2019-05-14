@@ -13,18 +13,19 @@ import java.util.Scanner;
  * Общий класс действий для клиента.
  */
 public class ClientActions {
-    private final Socket fileSocket;
 
-    public ClientActions(Socket fileSocket) {
-        this.fileSocket = fileSocket;
-        fillActions();
-    }
+    private final Socket fileSocket;
 
     /**
      * Ключ - описание действия.
      * Значение - класс действия.
      */
     private final Map<String, SimpleAction> actions = new HashMap();
+
+    public ClientActions(Socket fileSocket) {
+        this.fileSocket = fileSocket;
+        fillActions();
+    }
 
     /**
      * Метод возвращает объект действия по ключу.
