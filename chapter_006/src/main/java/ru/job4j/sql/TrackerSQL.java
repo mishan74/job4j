@@ -15,7 +15,7 @@ import java.util.Properties;
  * @version $Id$
  * @since 0.1
  */
-public class TrackerSQL implements ITracker, Closeable {
+public class TrackerSQL implements ITracker, AutoCloseable {
 
     private Connection connection;
 
