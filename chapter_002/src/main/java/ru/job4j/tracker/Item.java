@@ -1,5 +1,8 @@
 package ru.job4j.tracker;
 
+import java.util.Arrays;
+import java.util.Objects;
+
 /**
  * Class Item заявка.
  * @version $Id$
@@ -69,10 +72,31 @@ public class Item {
         this.id = id;
     }
 
+
     @Override
     public String toString() {
         String ls = System.lineSeparator();
         return String.format("The Item name: %s,%sdescription: %s,%sid: %s%s",
                 this.getName(), ls, this.getDesc(), ls, this.getId(), ls);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Item item = (Item) o;
+        return name.equals(item.name)
+                && desc.equals(item.desc)
+                && id.equals(item.id);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(name, desc, id);
+        return result;
     }
 }
