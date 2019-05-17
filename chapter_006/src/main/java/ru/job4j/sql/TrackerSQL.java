@@ -98,7 +98,7 @@ public class TrackerSQL implements ITracker, Closeable {
     public List<Item> findAll() {
         LinkedList<Item> items = new LinkedList<>();
         try (PreparedStatement ps = connection.prepareStatement(
-                "select * from item;", Statement.RETURN_GENERATED_KEYS
+                "select * from item;"
         )) {
             ResultSet result = ps.executeQuery();
             while (result.next()) {
@@ -119,7 +119,7 @@ public class TrackerSQL implements ITracker, Closeable {
     public List<Item> findByName(String key) {
         LinkedList<Item> items = new LinkedList<>();
         try (PreparedStatement ps = connection.prepareStatement(
-                "select * from item where item_name = ?;", Statement.RETURN_GENERATED_KEYS
+                "select * from item where item_name = ?;"
         )) {
             ps.setString(1, key);
             ResultSet result = ps.executeQuery();
@@ -141,7 +141,7 @@ public class TrackerSQL implements ITracker, Closeable {
     public Item findById(String id) {
         Item item = null;
             try (PreparedStatement ps = connection.prepareStatement(
-                    "select * from item where id = ?;", Statement.RETURN_GENERATED_KEYS
+                    "select * from item where id = ?;"
             )) {
                 ps.setInt(1, Integer.valueOf(id));
                 ResultSet result = ps.executeQuery();
