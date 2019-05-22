@@ -19,6 +19,10 @@ public class TrackerSQL implements ITracker, AutoCloseable {
 
     private Connection connection;
 
+    public TrackerSQL(Connection connection) {
+        this.connection = connection;
+    }
+
     @Override
     public void close() {
         try {
@@ -161,22 +165,22 @@ public class TrackerSQL implements ITracker, AutoCloseable {
 
 
 
-    public boolean init() {
-        try (InputStream in = TrackerSQL.class.getClassLoader().getResourceAsStream("app.properties")) {
-            Properties config = new Properties();
-            config.load(in);
-            Class.forName(config.getProperty("driver-class-name"));
-            this.connection = DriverManager.getConnection(
-                    config.getProperty("url"),
-                    config.getProperty("username"),
-                    config.getProperty("password")
-            );
-            this.setTableItems();
-        } catch (Exception e) {
-            throw new IllegalStateException(e);
-        }
-        return this.connection != null;
-    }
+   // public boolean init() {
+   //     try (InputStream in = TrackerSQL.class.getClassLoader().getResourceAsStream("app.properties")) {
+   //         Properties config = new Properties();
+   //         config.load(in);
+   //         Class.forName(config.getProperty("driver-class-name"));
+   //         this.connection = DriverManager.getConnection(
+   //                 config.getProperty("url"),
+   //                 config.getProperty("username"),
+   //                 config.getProperty("password")
+   //         );
+   //         this.setTableItems();
+   //     } catch (Exception e) {
+   //         throw new IllegalStateException(e);
+   //     }
+   //     return this.connection != null;
+   // }
 
     private void setTableItems() {
         try (PreparedStatement ps =
