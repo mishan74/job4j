@@ -16,3 +16,9 @@ notifications:
       -mrozdin@yandex.ru
     on_success: never # default: change
     on_failure: always # default: always
+
+services:
+- postgresql
+-
+before_install:
+  - psql -c 'create database tracker;' -U postgres
