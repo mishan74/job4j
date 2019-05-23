@@ -27,7 +27,7 @@ public class PingPong extends Application {
         stage.setTitle(JOB4J);
         stage.setResizable(false);
         stage.show();
-        thread1.interrupt();
+        //thread1.interrupt();
         stage.setOnCloseRequest(
                 event -> thread1.interrupt());
     }
