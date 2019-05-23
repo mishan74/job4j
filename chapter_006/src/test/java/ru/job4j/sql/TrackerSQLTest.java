@@ -3,8 +3,15 @@ package ru.job4j.sql;
 import org.hamcrest.core.Is;
 import org.junit.Test;
 import ru.job4j.tracker.Item;
+
+import java.io.InputStream;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Properties;
+
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.*;
 
@@ -15,16 +22,25 @@ import static org.junit.Assert.*;
  */
 
 public class TrackerSQLTest {
-    @Test
-    public void checkConnection() {
-        TrackerSQL sql = new TrackerSQL();
-        assertThat(sql.init(), is(true));
+    public Connection init() {
+        try (InputStream in = TrackerSQL.class.getClassLoader().getResourceAsStream("app.properties")) {
+            Properties config = new Properties();
+            config.load(in);
+            Class.forName(config.getProperty("driver-class-name"));
+            return DriverManager.getConnection(
+                    config.getProperty("url"),
+                    config.getProperty("username"),
+                    config.getProperty("password")
+            );
+        } catch (Exception e) {
+            throw new IllegalStateException(e);
+        }
     }
 
     @Test
-    public void whenAddFiveElementsDeleteOneThenFourElements() {
-        try (TrackerSQL tracker = new TrackerSQL()) {
-            tracker.init();
+    public void whenAddFiveElementsDeleteOneThenFourElements() throws SQLException {
+        try (TrackerSQL tracker = new TrackerSQL(ConnectionRollback.create(this.init()))) {
+
             Item first = new Item("first", "firstDescription");
             Item second = new Item("second", "secondDescription");
             tracker.add(first);
@@ -34,15 +50,14 @@ public class TrackerSQLTest {
 
             assertEquals(res.getFirst(), first);
             assertEquals(res.getLast(), second);
-            assertTrue(tracker.delete(first.getId()));
-            assertTrue(tracker.delete(second.getId()));
+
         }
     }
 
     @Test
-    public void whenAddFiveElementsThreeSameNameThenFoundsThreeElements() {
-        try (TrackerSQL tracker = new TrackerSQL()) {
-            tracker.init();
+    public void whenAddFiveElementsThreeSameNameThenFoundsThreeElements() throws SQLException {
+        try (TrackerSQL tracker = new TrackerSQL(ConnectionRollback.create(this.init()))) {
+
             Item first = new Item("test", "firstDescription");
             Item second = new Item("second", "secondDescription");
             Item third = new Item("test", "thirdDescription");
@@ -58,49 +73,43 @@ public class TrackerSQLTest {
             assertEquals(res.get(0), first);
             assertEquals(res.get(1), third);
             assertEquals(res.get(2), fives);
-            assertTrue(tracker.delete(first.getId()));
-            assertTrue(tracker.delete(second.getId()));
-            assertTrue(tracker.delete(third.getId()));
-            assertTrue(tracker.delete(fours.getId()));
-            assertTrue(tracker.delete(fives.getId()));
         }
     }
 
 
     @Test
-    public void whenAddNewItemThenTrackerHasSameItem() {
-        try (TrackerSQL tracker = new TrackerSQL()) {
-            tracker.init();
+    public void whenAddNewItemThenTrackerHasSameItem() throws SQLException {
+        try (TrackerSQL tracker = new TrackerSQL(ConnectionRollback.create(this.init()))) {
+
             Item item = new Item("test1", "testDescription", 123L);
             tracker.add(item);
             assertEquals(tracker.findAll().get(0), item);
-            assertTrue(tracker.delete(item.getId()));
+
         }
     }
 
 
     @Test
-    public void whenAddItemThenSameItemReturn() {
-        try (TrackerSQL tracker = new TrackerSQL()) {
-            tracker.init();
+    public void whenAddItemThenSameItemReturn() throws SQLException {
+        try (TrackerSQL tracker = new TrackerSQL(ConnectionRollback.create(this.init()))) {
             Item item = new Item("test1", "testDescription", 123L);
             Item result = tracker.add(item);
             assertThat(result, Is.is(item));
-            assertTrue(tracker.delete(item.getId()));
+
         }
     }
 
     @Test
-    public void whenReplaceNameThenReturnNewName() {
-        try (TrackerSQL tracker = new TrackerSQL()) {
-            tracker.init();
+    public void whenReplaceNameThenReturnNewName() throws SQLException {
+        try (TrackerSQL tracker = new TrackerSQL(ConnectionRollback.create(this.init()))) {
+
             Item previous = new Item("test1", "testDescription");
             tracker.add(previous);
             Item next = new Item("test2", "testDescription2");
             next.setId(previous.getId());
             tracker.replace(previous.getId(), next);
             assertThat(tracker.findById(previous.getId()).getName(), Is.is("test2"));
-            assertTrue(tracker.delete(next.getId()));
+
         }
     }
 }
