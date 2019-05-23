@@ -25,8 +25,8 @@ public class RectangleMove implements Runnable {
         int deltaY = 1;
         boolean endWallX = false;
         boolean endWallY = false;
-
-        while (true) {
+        int t = 1;
+        while (!Thread.currentThread().isInterrupted()) {
             if ((!endWallX && (this.rect.getX() + rect.getWidth() >= limitX))
                     || (endWallX && (this.rect.getX() + rect.getWidth() <= 0))
             ) {
@@ -48,7 +48,7 @@ public class RectangleMove implements Runnable {
             try {
                 Thread.sleep(20);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                Thread.currentThread().interrupt();
             }
         }
     }
