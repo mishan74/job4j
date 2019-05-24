@@ -1,7 +1,8 @@
 package ru.job4j.threads;
 
-/**
- * @author Mikhail Rozdin
+
+/*
+  @author Mikhail Rozdin
  * @version $Id$
  * @since 0.1
  */
