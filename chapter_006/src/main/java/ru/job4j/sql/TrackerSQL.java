@@ -3,7 +3,6 @@ package ru.job4j.sql;
 import ru.job4j.tracker.ITracker;
 import ru.job4j.tracker.Item;
 
-import java.io.Closeable;
 import java.io.InputStream;
 import java.sql.*;
 import java.util.LinkedList;
