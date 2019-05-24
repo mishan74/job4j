@@ -15,34 +15,53 @@ import java.util.StringJoiner;
  * @since 0.1
  */
 public class StartApp {
+    final static String FS = File.separator;
+    private final StoreSQL storeSQL;
+
+
+    private final File firstXML;
+    private final File scheme;
+    private final File resultXML;
+
+    public StartApp(String config, String output, String input, String scheme) {
+        this.storeSQL = new StoreSQL(new Config(config));
+        this.firstXML = new File(input);
+        this.resultXML = new File(output);
+        this.scheme = new File(scheme);
+
+    }
+
+        public void start() throws IOException, TransformerException {
+            storeSQL.init();
+            storeSQL.generate(5);
+
+            List<Entry> list = storeSQL.load();
+            for (Entry entry : list) {
+                System.out.println(entry.getField());
+            }
+
+            FileOutputStream fs = new FileOutputStream(firstXML);
+            FileOutputStream fs1 = new FileOutputStream(resultXML);
+
+            StoreXML storeXML = new StoreXML(firstXML);
+            storeXML.save(list);
+            ConvertXSQT convertXSQT = new ConvertXSQT();
+            convertXSQT.convert(firstXML, resultXML, scheme);
+        }
+
     public static void main(String[] args) throws IOException, TransformerException {
-        final String FS = File.separator;
         StringJoiner sj = new StringJoiner(FS);
-        sj
-                .add("chapter_006")
+        sj .add("chapter_006")
                 .add("src")
                 .add("main")
-                .add("resources");
+                .add("resources")
+                .add(FS);
 
-        Config config = new Config(sj.toString().concat(FS).concat("app.properties"));
-        StoreSQL storeSQL = new StoreSQL(config);
-        storeSQL.init();
-        storeSQL.generate(5);
-        List<Entry> list = storeSQL.load();
-        for (Entry entry : list) {
-            System.out.println(entry.getField());
-        }
-        File firstXML = new File("test.xml");
-        File resultXML = new File("result.xml");
-        File scheme = new File(sj.toString().concat(FS).concat("scheme.xsl"));
-        FileOutputStream fs = new FileOutputStream(firstXML);
-        FileOutputStream fs1 = new FileOutputStream(resultXML);
-      //  FileOutputStream fs2 = new FileOutputStream(file2);
-        StoreXML storeXML = new StoreXML(firstXML);
-        storeXML.save(list);
-        ConvertXSQT convertXSQT = new ConvertXSQT();
-        convertXSQT.convert(firstXML, resultXML, scheme);
-
-
+        new StartApp(
+            sj.toString().concat("app.properties"),
+            "test.xml",
+            "result.xml",
+            sj.toString().concat("scheme.xsl")
+            ).start();
     }
 }
