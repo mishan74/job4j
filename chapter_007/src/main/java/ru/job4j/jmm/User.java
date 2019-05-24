@@ -51,8 +51,6 @@ public class User {
      * 2000
      * 2500
      *
-     * @param args
-     * @throws InterruptedException
      */
     public static void main(String[] args) throws InterruptedException {
         User user = new User("Gorgy", 1500);
