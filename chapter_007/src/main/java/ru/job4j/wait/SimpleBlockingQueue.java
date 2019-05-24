@@ -28,7 +28,7 @@ public class SimpleBlockingQueue<T> {
     private boolean full;
 
     @GuardedBy("this")
-    private Queue<T> queue = new LinkedList<>();
+    private final Queue<T> queue = new LinkedList<>();
 
     /**
      * add
@@ -56,5 +56,9 @@ public class SimpleBlockingQueue<T> {
         count--;
         this.notify();
         return this.queue.poll();
+    }
+
+    public synchronized boolean isEmpty() {
+        return this.queue.isEmpty();
     }
 }

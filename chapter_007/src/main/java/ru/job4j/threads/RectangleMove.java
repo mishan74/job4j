@@ -1,7 +1,6 @@
 package ru.job4j.threads;
 
 import javafx.scene.shape.Rectangle;
-import javafx.stage.Stage;
 
 /**
  * @author Mikhail Rozdin
