@@ -17,6 +17,7 @@ public class SimpleBlockingQueue<T> {
     /**
      * initial first size
      */
+    @GuardedBy("this")
     private int count = 0;
 
     /**
@@ -24,8 +25,6 @@ public class SimpleBlockingQueue<T> {
      */
     private static final int MAX_SIZE = 3;
 
-    private boolean empty;
-    private boolean full;
 
     @GuardedBy("this")
     private final Queue<T> queue = new LinkedList<>();
