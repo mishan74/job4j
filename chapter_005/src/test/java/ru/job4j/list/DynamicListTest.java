@@ -41,6 +41,13 @@ public class DynamicListTest {
         assertThat(dynamicList.get(5), is("Sixth"));
     }
 
+    @Test
+    public void whenGetFifthIndexAndAddByIndexThenSix() {
+        dynamicList.add("Hello", 2);
+        assertThat(dynamicList.get(6), is("Sixth"));
+        assertThat(dynamicList.get(2), is("Hello"));
+    }
+
     @Test (expected = IllegalArgumentException.class)
     public void whenGetNegativeThenException() {
         dynamicList.get(-5);

@@ -38,6 +38,25 @@ public class DynamicList<E> implements Iterable {
         modCount++;
         size++;
     }
+    public void add(E value, int index) {
+        if (index < 0) {
+            throw new IllegalArgumentException();
+        } else if (index >= size) {
+            throw new IndexOutOfBoundsException();
+        }
+        Node<E> temp = first;
+        Node<E> newValue = new Node<>(value);
+        for (int i = 0; i <= index; i++) {
+            if (i == index) {
+                temp.previous.next = newValue;
+                newValue.previous = temp.previous;
+                newValue.next = temp;
+                temp.previous = newValue;
+                break;
+            }
+            temp = temp.next;
+        }
+    }
 
     public E get(int index) throws IllegalArgumentException, IndexOutOfBoundsException {
         if (index < 0) {
